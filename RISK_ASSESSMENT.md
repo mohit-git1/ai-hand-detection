@@ -6,45 +6,46 @@
 **Business Unit:** Noida Business Unit  
 **Risk Assessment Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
 **Effective Date:** 15 September 2026  
-**ISO/IEC 42001 Clause Alignment:** Clause 6.1 (AI Risk Assessment) & Clause 8.2 (Operational Risk Treatment)  
+**ISO/IEC 42001 Clause Alignment:** Clause 6.1 (AI Risk Assessment) & Clause 8.2 (Operational AI Risk Assessment)  
 
 ---
 
-## 1. Methodology & Risk Criteria
+## 1. Methodology & Risk Evaluation Criteria
 
 Risks are evaluated using a standard 5x5 Likelihood and Severity matrix:
-- **Likelihood (L)**: 1 (Rare), 2 (Unlikely), 3 (Possible), 4 (Likely), 5 (Almost Certain)
-- **Severity (S)**: 1 (Insignificant), 2 (Minor), 3 (Moderate), 4 (Major), 5 (Critical)
-- **Risk Rating (R = L x S)**: 1–5 (Low), 6–11 (Medium), 12–19 (High), 20–25 (Critical)
-
-Pre-flight operational thresholds and stop conditions are established for each identified risk.
+- **Likelihood (1–5)**: 1 (Rare), 2 (Unlikely), 3 (Possible), 4 (Likely), 5 (Almost Certain)
+- **Severity (1–5)**: 1 (Insignificant), 2 (Minor), 3 (Moderate), 4 (Major), 5 (Critical)
+- **Residual Risk**: Risk rating after applying operational controls and technical mitigations.
 
 ---
 
-## 2. Comprehensive AI Risk Matrix & Operational Stop Conditions
+## 2. Comprehensive AI Risk Register & Operational Stop Conditions
 
-| Risk ID | Category | Risk Description | Pre-Mitigation (L x S) | Risk Owner | Mitigations & Operational Controls | Enforceable Stop Condition & Threshold | Residual Risk (L x S) | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **RSK-01** | Privacy | Production console exposure of raw landmark matrices or camera frame arrays. | L=4, S=4 (16 High) | Mohit Sharma | Complete removal of `console.log(results)` calls; safe opt-in sanitized diagnostic wrapper (`window.ENABLE_DIAGNOSTICS`). | **Stop Condition**: DevTools console shows raw coordinate array. Code check blocks release if unredacted `console.log` exists. | L=1, S=2 (2 Low) | **Mitigated** |
-| **RSK-02** | Privacy / Hardware | Uninformed camera prompt or failure to release camera stream on exit. | L=4, S=3 (12 High) | Mohit Sharma | Pre-permission privacy banner; explicit Start/Stop buttons; `MediaStreamTrack.stop()` invoked on stop/unload. | **Stop Condition**: Webcam LED remains illuminated after clicking "Stop Camera". Stream must terminate within <500ms. | L=1, S=2 (2 Low) | **Mitigated** |
-| **RSK-03** | Misuse / Compliance | Misapplication of handpose for authentication, profiling, surveillance, or health assessment. | L=3, S=5 (15 High) | Mohit Sharma | Prominent intended/prohibited use banners in UI, [README.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/README.md), and [AI_POLICY.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AI_POLICY.md). | **Stop Condition**: Discovery of feature code attempting identity matching or data export. Immediate removal required. | L=1, S=2 (2 Low) | **Mitigated** |
-| **RSK-04** | Operation / Accuracy | Unstable handpose predictions causing erratic pointer jumps or false clicks. | L=4, S=3 (12 High) | Mohit Sharma | Exponential coordinate smoothing (`alpha = 0.25`); middle-finger coordinate boundary clamping; pointer lock loss release. | **Stop Condition**: Coordinate delta > 200px per frame without hand movement; automatic fallback to default OS cursor. | L=2, S=2 (4 Low) | **Mitigated** |
-| **RSK-05** | Operation / Accuracy | Inaccurate tracking due to poor lighting, occlusion, background clutter, skin tone, or mobility differences. | L=4, S=3 (12 High) | Mohit Sharma | Environmental limitation disclaimers; dynamic status badges ("No Hand Detected", "Searching..."); canvas reset on lost tracking. | **Stop Condition**: 0 hands detected for >3 consecutive seconds resets pointer position and updates UI badge. | L=2, S=2 (4 Low) | **Mitigated** |
-| **RSK-06** | Dependency / Security | Third-party script tampering, CDN downtime (`unpkg.com`, `cdnjs`), or breaking `ml5.js` updates. | L=3, S=4 (12 High) | Mohit Sharma | Pin dependencies to exact versions (`ml5@0.12.2`, `materialize@1.0.0`); document CDN fallback and update review policy. | **Stop Condition**: Network error loading script tag sets UI status to "Model Failed to Load" and disables controls. | L=2, S=2 (4 Low) | **Mitigated** |
-| **RSK-07** | Accessibility | Exclusion of users unable to use camera or hand gestures. | L=3, S=3 (9 Medium) | Mohit Sharma | Complete keyboard accessibility (`Tab`, `Space`, `Enter`, `Esc`); ARIA live status regions; non-camera "Simulate Hand Pattern" mode. | **Stop Condition**: Any interactive control un-focusable via Keyboard `Tab` navigation. | L=1, S=2 (2 Low) | **Mitigated** |
+| Risk | Likelihood | Severity | Owner | Mitigation | Residual Risk | Stop Condition |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Camera Permission Denial** | 4 (Likely) | 3 (Moderate) | Mohit Sharma | Pre-permission privacy banner explaining camera usage; graceful fallback error handling; user-selectable "Simulate Hand Pattern" mode. | Low (Score: 3) | **Stop Condition**: If `navigator.mediaDevices.getUserMedia()` throws `NotAllowedError` or `PermissionDeniedError`, immediately set UI status to "Camera Access Denied", disable AI toggle checkbox (`ai.disabled = true`), and halt video element stream initialization. |
+| **Inaccurate Hand Detection** | 4 (Likely) | 3 (Moderate) | Mohit Sharma | Environmental limitation warnings (lighting, clutter, pose); visual status badges ("No Hand Detected", "Searching..."); canvas reset on lost tracking. | Low (Score: 4) | **Stop Condition**: If detection confidence < 0.5 or 0 hands are detected for N=3 consecutive frames, disable pointer interaction, clear canvas landmark overlays, and update UI status badge to "AI Active: Searching for hand...". |
+| **Unintended Pointer Movement** | 4 (Likely) | 3 (Moderate) | Mohit Sharma | Exponential coordinate smoothing (`alpha = 0.25`); middle-finger coordinate boundary clamping; prominent "Exit Pointer Mode" button; `Esc` key listener. | Low (Score: 4) | **Stop Condition**: If middle-finger coordinate delta exceeds >200px in a single frame without smooth tracking, or if `pointerlockchange` event fires (lock lost), immediately call `exitPointerMode()`, uncheck AI switch (`ai.checked = false`), and clear fake mouse cursor canvas. |
+| **ml5.js / CDN Dependency Failure** | 3 (Possible) | 4 (Major) | Mohit Sharma | Pin dependencies to exact versions (`ml5@0.12.2`, `materialize@1.0.0`); script `onerror` listener; documented local self-hosting fallback (`/vendor/ml5.min.js`). | Low (Score: 4) | **Stop Condition**: If external `unpkg.com` CDN script fails to load (HTTP status != 200 or script `onerror` triggers), set UI status to "Model Load Error: CDN Unavailable", keep controls disabled, and prevent camera invocation. |
+| **Privacy Exposure from Biometric Landmark Capture** | 4 (Likely) | 4 (Major) | Mohit Sharma | Complete removal of raw `console.log(results)` calls; safe `DEBUG_LOGGING` opt-in wrapper (count-only logging, zero landmark coordinates); physical stream track shutdown (`track.stop()`) on exit. | Low (Score: 2) | **Stop Condition**: If DevTools console inspection or pre-release `grep` audit reveals any active unredacted `console.log` of raw landmark coordinate arrays, immediately halt production release build pipeline. |
 
 ---
 
-## 3. Operational Pre-Flight Checklist
+## 3. Mandatory Risk Assessment Update Trigger
 
-Before launching or serving `ai-hand-detection`:
-1. **Model Initialization Check**: Confirm `modelIsLoaded === true` before enabling UI checkboxes.
-2. **Camera Readiness Check**: Confirm `video.readyState === video.HAVE_ENOUGH_DATA` before drawing canvas frames.
-3. **Pointer Lock Check**: Confirm `document.pointerLockElement === c1` during pointer lock execution.
-4. **Console Cleanliness Check**: Verify zero active `console.log(results)` calls in JavaScript execution context.
+> ⚠️ **Enforceable Re-assessment Policy**:
+> This Risk Assessment **MUST** be formally re-assessed and updated by Mohit Sharma upon:
+> 1. Any version bump or update to the external `ml5.js` library or underlying handpose model.
+> 2. Introduction of any new feature or architectural modification affecting camera stream processing or pointer interaction.
+> 3. Discovery of any high-severity nonconformity or privacy incident.
+> 4. At mandatory annual review intervals (Next scheduled review: **15 September 2027**).
 
 ---
 
-## 4. Operational Feedback into AIMS Risk Treatment
+## 4. Pre-Flight Operational Readiness Checklist
 
-Operational findings (e.g. user error reports, browser compatibility failures, CDN outages) are logged as CAPA records ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)) and reviewed during annual risk reviews or quarterly management reviews to update this Risk Assessment.
+Before serving `ai-hand-detection` to users:
+1. **Model Readiness**: Confirm `modelIsLoaded === true` before enabling UI controls.
+2. **Stream Active**: Confirm `video.readyState === video.HAVE_ENOUGH_DATA` before canvas rendering.
+3. **Console Audit**: Execute `grep -n "console.log" video.js mouse/video.js` to ensure zero unredacted landmark logging.
+4. **Hardware Release**: Confirm `mediaStream.getTracks().forEach(t => t.stop())` turns off physical webcam indicator light when stopped.

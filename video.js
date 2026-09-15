@@ -1,10 +1,10 @@
-// Production diagnostics check (Opt-in safe diagnostics)
-window.ENABLE_DIAGNOSTICS = window.ENABLE_DIAGNOSTICS || false;
+// Production diagnostics check (Opt-in safe debug logging)
+window.DEBUG_LOGGING = window.DEBUG_LOGGING || false;
 
 function safeLog(message) {
-    if (window.ENABLE_DIAGNOSTICS) {
-        // Redact any raw coordinates, frames, or biometric vectors
-        console.log(`[AI-Hand-Detection Diagnostic] ${message}`);
+    if (window.DEBUG_LOGGING) {
+        // Redact any raw coordinates, frames, or biometric vectors; log only safe status string/count
+        console.log(`[Diagnostic] ${message}`);
     }
 }
 

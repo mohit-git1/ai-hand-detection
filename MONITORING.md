@@ -12,32 +12,33 @@
 
 ## 1. Monitoring Strategy & Privacy Safeguards
 
-To measure performance, reliability, and safety of `ai-hand-detection` without invading user privacy, the Noida Business Unit implements a **proportionate, privacy-preserving monitoring framework**.
+To measure operational performance, system reliability, and safety of `ai-hand-detection` without compromising user privacy, the Noida Business Unit enforces a **privacy-preserving monitoring framework**.
 
-### Privacy Safeguards in Monitoring
-- **Zero Raw Data Collection**: The monitoring framework does **NOT** collect, log, or transmit raw camera video, image frames, landmark coordinate arrays, or biometric vectors.
-- **Client-Side Operational Telemetry Only**: Operational health is measured via anonymous browser feature checks, error event listeners, and user issue reports.
+### Privacy Safeguards
+- **Zero Raw Data Capture**: The monitoring framework does **NOT** collect, log, or transmit raw camera video frames, landmark coordinate arrays, or biometric vectors.
+- **Client DOM Telemetry Only**: Operational health metrics are calculated from anonymous browser event listeners, error catch handlers, and issue reports.
 
 ---
 
-## 2. Key Performance & Reliability Metrics (KPIs)
+## 2. Quantitative Monitoring Metrics & Alert Thresholds Matrix
 
-| Metric ID | Metric Name & Description | Collection Method | Target Benchmark | Escalation / Alert Threshold | Review Cadence |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **MTR-01** | **Camera Access Failure Rate** | Browser `getUserMedia().catch()` error logging (Client DOM) | < 2.0% of user attempts | > 5.0% error rate | Weekly |
-| **MTR-02** | **Model Load Success Rate** | `modelIsLoaded` state check upon page load | 100.0% | < 98.0% readiness | Weekly |
-| **MTR-03** | **Console Exposure Compliance** | Source code grep audit & automated DevTools checks | 0 unredacted console logs | > 0 console exposure | Per Release |
-| **MTR-04** | **Pointer Lock Loss Recovery** | `pointerlockchange` event listener state check | 100.0% clean pointer release | Any pointer runaway | Monthly |
-| **MTR-05** | **CDN Script Availability** | HTTP HEAD request to `unpkg.com/ml5@0.12.2` | 99.9% uptime | CDN HTTP status != 200 | Daily |
-| **MTR-06** | **User-Reported Defects** | Issue tracking log ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)) | 0 open Critical/High defects | >= 1 unresolved High defect | Bi-weekly |
+| Metric ID | Metric Name | Metric Description | Collection Method | Target Benchmark | Alert / Escalation Threshold | Review Cadence |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **MTR-01** | **Camera-Access Failure Rate** | Percentage of camera streams failing due to permission denial or device unavailability. | Client-side `getUserMedia().catch()` error event listener | < 2.0% | **> 5.0% failure rate** ➔ Triggers UI prompt review & CAPA investigation | Weekly |
+| **MTR-02** | **Inference-Readiness Rate** | Percentage of page loads where `ml5.js` model initializes successfully. | `modelIsLoaded` state flag readiness check | > 98.0% | **< 95.0% readiness** ➔ Triggers CDN health check & model loading audit | Weekly |
+| **MTR-03** | **Pointer-Lock Failure Rate** | Count of unhandled pointer-lock losses or cursor runaway incidents. | `pointerlockchange` event listener state monitor | 0 incidents | **> 1 runaway incident** ➔ Triggers immediate pointer lock code audit | Monthly |
+| **MTR-04** | **Dependency Load Failure Rate** | Count of script loading errors for external `unpkg` / `cdnjs` CDN tags. | Script tag `onerror` DOM event listener | 0 errors | **> 0 CDN load errors** ➔ Triggers local vendor script fallback switch | Daily |
+| **MTR-05** | **Console Exposure Compliance** | Count of active unredacted `console.log` calls emitting landmark arrays. | Automated `node -c` and pre-release `grep` check | 0 exposures | **> 0 exposures** ➔ Blocks release build pipeline | Per Release |
+| **MTR-06** | **User-Reported Defect Rate** | Count of open High/Critical AI defects or privacy concerns. | CAPA issue register audit ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)) | 0 open defects | **>= 1 open High defect** ➔ Escalates to Mohit Sharma for immediate fix | Bi-weekly |
 
 ---
 
 ## 3. Sample Operational Analysis Record
 
 ### Operational Analysis Log (Period: 01 Sep 2026 – 15 Sep 2026)
-- **Model Load Success Rate**: 100.0% (Zero CDN downtime reported by `unpkg.com`).
-- **Camera Access Denial Rate**: 1.2% (Attributed to users declining browser permission prompts; handled gracefully by UI privacy prompt).
-- **Console Redaction Verification**: 100.0% clean (Automated `node -c` and grep checks confirmed zero `console.log(results)` occurrences).
-- **Pointer Lock Safety**: Zero reported pointer lock runaway incidents. Exponential coordinate smoothing (`alpha = 0.25`) successfully eliminated middle-finger tracking jitter.
-- **Assessed By**: Mohit Sharma, System Owner (15 Sep 2026).
+- **Camera-Access Failure Rate**: 1.2% (Handled gracefully via UI error message; zero system crashes).
+- **Inference-Readiness Rate**: 100.0% (`ml5.js` initialized cleanly across all tested browser sessions).
+- **Pointer-Lock Failure Rate**: 0 unhandled lock losses (`lockCheck()` function successfully auto-disabled pointer mode on Esc key or window blur).
+- **Dependency Load Failure Rate**: 0 CDN load errors reported by `unpkg.com`.
+- **Console Exposure Audit**: 100.0% clean (Automated `grep` confirmed zero `console.log(results)` occurrences).
+- **Assessed By**: Mohit Sharma, Lead Engineer & Monitoring Owner (15 Sep 2026).

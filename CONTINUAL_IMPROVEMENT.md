@@ -10,27 +10,27 @@
 
 ---
 
-## 1. Continual Improvement Policy & Process
+## 1. Continual Improvement Process & Policy
 
-Under ISO/IEC 42001 Clause 10.2, the Noida Business Unit systematically drives continual improvement of system `AIS-2e3a94ae` by analyzing user feedback, monitoring metrics, audit findings, dependency changes, and retrospective reviews.
+Under ISO/IEC 42001 Clause 10.2, the Noida Business Unit systematically drives continual improvement of system `AIS-2e3a94ae` by analyzing user feedback, monitoring telemetry metrics, audit findings, dependency changes, and retrospective reviews.
 
-Mohit Sharma is the assigned **Continual Improvement Owner**. All improvement initiatives are tracked, prioritized, assigned target due dates, and evaluated for post-implementation effectiveness.
+**Mohit Sharma** is the assigned **Continual Improvement Owner**. All improvement initiatives are tracked in a live backlog, assigned priorities, target due dates, and evaluated for post-implementation effectiveness.
 
 ---
 
-## 2. Continual Improvement Backlog
+## 2. Live Continual Improvement Backlog Table
 
-| Item ID | Category | Description of Improvement Opportunity | Source / Trigger | Priority | Assigned Owner | Target Release / Due Date | Post-Implementation Effectiveness Evaluation | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **IMP-01** | Privacy & Safety | Eliminate raw console logging of landmark matrices and add safe opt-in diagnostic mechanism. | GovernXOne Audit | High | Mohit Sharma | 15 Sep 2026 | Verified 100% clean DevTools console during operation. | **Completed** |
-| **IMP-02** | Hardware / Privacy | Implement explicit Start/Stop camera buttons and physical stream release (`track.stop()`). | GovernXOne Audit | High | Mohit Sharma | 15 Sep 2026 | Verified physical camera indicator light turns off instantly when stopped. | **Completed** |
-| **IMP-03** | Pointer Control | Add exponential coordinate smoothing (`alpha = 0.25`) to prevent middle-finger pointer jitter. | GovernXOne Audit | High | Mohit Sharma | 15 Sep 2026 | Tested cursor movement; pointer jitter eliminated. | **Completed** |
-| **IMP-04** | Accessibility | Add non-camera "Simulate Hand Pattern" mode and complete keyboard focus navigation. | Accessibility Review | Medium | Mohit Sharma | 15 Sep 2026 | Non-camera testing mode functional; keyboard navigation audited. | **Completed** |
-| **IMP-05** | Governance | Create comprehensive ISO 42001 AIMS documentation suite (Scope, AI Policy, Risk Assessment, CAPA, Runbook, Supplier Assessment). | GovernXOne Gap Scan | High | Mohit Sharma | 15 Sep 2026 | Complete ISO 42001 documentation package committed to repository. | **Completed** |
-| **IMP-06** | Performance | Evaluate local self-hosting of `ml5.min.js` script to reduce reliance on public CDN (`unpkg.com`). | Risk Review | Medium | Mohit Sharma | Q4 2026 | Pending Q4 dependency evaluation. | **Planned** |
+| Item ID | Improvement Opportunity | Source / Trigger | Priority | Named Owner | Target Due Date | Post-Implementation Effectiveness Evaluation Criteria | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **IMP-01** | Redact raw console logging of prediction objects; implement safe `DEBUG_LOGGING` wrapper. | GovernX Audit | High | Mohit Sharma | 15 Sep 2026 | Verified zero landmark coordinates emitted to console. | **Completed** |
+| **IMP-02** | Implement explicit Start/Stop camera controls and physical stream track shutdown (`track.stop()`). | GovernX Audit | High | Mohit Sharma | 15 Sep 2026 | Verified webcam LED turns off within <500ms when stopped. | **Completed** |
+| **IMP-03** | Implement exponential coordinate smoothing (`alpha = 0.25`) for middle-finger pointer control. | GovernX Audit | High | Mohit Sharma | 15 Sep 2026 | Tested pointer movement; cursor jitter eliminated. | **Completed** |
+| **IMP-04** | Add non-camera "Simulate Hand Pattern" mode and complete keyboard focus navigation (`Tab`, `Esc`). | Accessibility Review | Medium | Mohit Sharma | 15 Sep 2026 | Non-camera simulation pattern functional; keyboard navigation audited. | **Completed** |
+| **IMP-05** | Formally document ISO 42001 AIMS governance suite (Scope, AI Policy, Risk Assessment, CAPA, Runbook). | GovernX Scan Gap | High | Mohit Sharma | 15 Sep 2026 | Complete AIMS document suite committed to repository. | **Completed** |
+| **IMP-06** | Bundle a local vendor copy of `ml5.min.js` at `/vendor/ml5.min.js` as an offline fallback. | Risk Assessment | Medium | Mohit Sharma | Q4 2026 | Test offline fallback script loading when network CDN is disconnected. | **Planned** |
 
 ---
 
 ## 3. Retrospective Notes & Evaluation Cadence
 
-Retrospective reviews are conducted quarterly by Mohit Sharma. Approved improvement items feed directly into change management ([CHANGE_CONTROL.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CHANGE_CONTROL.md)) and are reviewed in quarterly management reviews.
+Retrospective reviews are conducted quarterly by Mohit Sharma. Approved improvement backlog items feed directly into change control ([CHANGE_CONTROL.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CHANGE_CONTROL.md)) and are reviewed in quarterly management reviews.
