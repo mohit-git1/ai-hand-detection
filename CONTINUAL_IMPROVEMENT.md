@@ -1,4 +1,4 @@
-# ISO/IEC 42001 Continual Improvement Backlog & Effectiveness Reviews
+# ISO/IEC 42001 Continual Improvement Backlog & Retrospective Process
 
 **Document Reference:** AIMS-IMP-10.2  
 **System Identifier:** `AIS-2e3a94ae`  
@@ -10,17 +10,35 @@
 
 ---
 
-## 1. Continual Improvement Policy & Process
+## 1. Continual Improvement Policy & Ownership
 
-Under ISO/IEC 42001 Clause 10.2, the Noida Business Unit systematically drives continual improvement of system `AIS-2e3a94ae` by analyzing user feedback, telemetry exports ([telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json)), audit findings, dependency changes, and retrospective reviews.
+Under ISO/IEC 42001 Clause 10.2, the Noida Business Unit systematically drives continual improvement of the suitability, adequacy, and effectiveness of system `AIS-2e3a94ae`.
 
-**Mohit Sharma** is the assigned **Continual Improvement Owner**. All improvement initiatives are tracked in a live backlog, assigned priorities, target due dates, and evaluated for post-implementation effectiveness using telemetry data.
+**Mohit Sharma** is the designated **Continual Improvement Owner**. Improvement opportunities are identified from telemetry exports ([telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json)), CAPA records ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)), management reviews ([MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md)), user feedback, and retrospective reviews.
 
 ---
 
-## 2. Live Continual Improvement Backlog Table
+## 2. Retrospective Process & Lessons-Learned Register
 
-| Item ID | Improvement Opportunity | Source / Trigger | Priority | Named Owner | Target Due Date | Post-Implementation Telemetry Effectiveness Review | Status |
+### 2.1 Quarterly Retrospective Process
+1. **Cadence**: Conducted quarterly by Mohit Sharma at the end of each release cycle.
+2. **Review Scope**: Telemetry confidence trends, camera permission failure rates, CAPA closure speed, and third-party script stability.
+3. **Action Mapping**: Lessons learned are documented and logged into the Continual Improvement Backlog.
+
+### 2.2 Lessons-Learned Register
+
+| Lesson ID | Trigger Event | Lesson Learned | Preventive Action Implemented |
+| :--- | :--- | :--- | :--- |
+| **LL-01** | DevTools console logging finding | Production JS files must strictly gate log functions to prevent sensitive landmark data exposure. | Implemented `safeLog()` with `window.DEBUG_LOGGING` count-only wrapper. |
+| **LL-02** | Unreleased webcam stream finding | Browser `getUserMedia` streams must be explicitly closed via `track.stop()` on UI stop or window unload. | Added `stopCamera()` hardware cleanup function. |
+| **LL-03** | Middle-finger pointer jitter | Direct landmark-to-canvas coordinate mapping causes cursor instability without filtering. | Implemented exponential coordinate smoothing (`alpha = 0.25`). |
+| **LL-04** | Telemetry verification requirement | Console logging is insufficient for ISO 42001 audit compliance; durable client DOM telemetry is required. | Created `telemetry.js` module with DOM panel and JSON export capabilities. |
+
+---
+
+## 3. Live Continual Improvement Backlog Table
+
+| Item ID | Improvement Opportunity | Trigger Source | Priority | Named Owner | Target Due Date | Post-Implementation Telemetry Effectiveness Review | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **IMP-01** | Redact raw console logging of prediction objects; implement safe `DEBUG_LOGGING` wrapper. | GovernX Audit | High | Mohit Sharma | 15 Sep 2026 | **Before/After Review**: Pre-fix DevTools emitted 30 landmark objects/sec. Post-fix DevTools emitted 0 objects. Telemetry confirms 100% clean logging. | **Completed** |
 | **IMP-02** | Implement explicit Start/Stop camera controls and physical stream track shutdown (`track.stop()`). | GovernX Audit | High | Mohit Sharma | 15 Sep 2026 | **Before/After Review**: Stream remained open on toggle off. Post-fix hardware LED turns off within <500ms. Telemetry confirms 0 orphaned streams. | **Completed** |
@@ -31,6 +49,6 @@ Under ISO/IEC 42001 Clause 10.2, the Noida Business Unit systematically drives c
 
 ---
 
-## 3. Retrospective Notes & Evaluation Cadence
+## 4. Governance & Review Approval
 
-Retrospective reviews are conducted quarterly by Mohit Sharma. Approved improvement backlog items feed directly into change control ([CHANGE_CONTROL.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CHANGE_CONTROL.md)) and are reviewed in quarterly management reviews ([MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md)).
+This Continual Improvement process and backlog are formally reviewed quarterly during management reviews ([MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md)).

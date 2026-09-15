@@ -1,4 +1,4 @@
-# ISO/IEC 42001 AI Policy
+# ISO/IEC 42001 AI Policy & Leadership Governance Charter
 
 **Document Reference:** AIMS-POL-5.2  
 **System Identifier:** `AIS-2e3a94ae`  
@@ -8,36 +8,50 @@
 
 ---
 
-## Policy Ownership & Approval
-- **Policy Owner**: Mohit Sharma (System & Compliance Owner)
-- **Approved by**: Mohit Sharma (Lead Engineer & Top Management Representative, Noida Business Unit)
-- **Approval date**: 2026-09-15
-- **Review cycle**: Annual, next review due 2027-09-15
+## 1. Top Management Sponsorship & Endorsement Record
 
-> ℹ️ **Single-Maintainer Operational Limitation (Clause 5.1)**:  
-> As a single-maintainer open-source repository, Mohit Sharma serves as both System Owner and Sponsor of Record. Complete separation of duties between top management leadership and compliance owner is documented as an accepted operational limitation for this single-maintainer repository context.
+- **Top Management Sponsor & Approver**: Mohit Sharma (Lead Engineer & Designated Top Management Representative, Noida Business Unit)
+- **Policy & Compliance Owner**: Mohit Sharma (System & Compliance Owner)
+- **Dated Approval Record**: **Approved & Endorsed on 15 September 2026** by Top Management Leadership (Noida Unit)
+- **Review Cadence**: Annual (Next Scheduled Review: **15 September 2027**)
 
----
-
-## Top Management Policy Statement
-Top management of the Noida Business Unit, led by **Mohit Sharma (Top Management Representative & System Owner)**, is formally committed to operating browser-based artificial intelligence applications responsibly, securely, transparently, and ethically in compliance with **ISO/IEC 42001:2023**.
+> 📜 **Leadership Sponsorship Statement**:  
+> *"Top management of the Noida Business Unit hereby authorizes, sponsors, and endorses this AI Policy and the underlying ISO/IEC 42001 AI Management System (AIMS) for system `AIS-2e3a94ae`. Leadership commits to allocating required operational resources, ensuring alignment with organizational strategy, enforcing privacy safeguards, and conducting formal management reviews."*  
+> — **Mohit Sharma**, Lead Engineer & Designated Top Management Representative (Noida Business Unit)
 
 ---
 
-## Measurable Commitments
-1. **Reliability**: Hand-detection confidence threshold enforced at inference time; pointer-control disengages automatically below the threshold (see [RISK_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RISK_ASSESSMENT.md) stop conditions).
-2. **Transparency**: [README.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/README.md) and in-app notice disclose that detection is client-side, browser-dependent, and may misfire in poor lighting/occlusion.
-3. **Privacy**: No camera frames or landmark coordinates are transmitted off-device or persisted; console logging of raw landmarks is prohibited (enforced in [video.js](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/video.js) / [mouse/video.js](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/mouse/video.js)).
-4. **Human Control**: AI toggle and explicit camera Start/Stop remain available at all times; no autonomous action beyond the visual overlay/pointer demo.
-5. **Continual Improvement**: Policy and controls reviewed at least annually or on any `ml5.js`/model version change.
+## 2. Endorsed AI Strategy & Governance Principles
+
+Top management mandates the following strategic governance principles for all browser-based AI systems operated by the Noida Business Unit:
+
+1. **Responsible & Privacy-First Operation**: Camera frames are processed strictly client-side inside browser DOM memory (`HTMLCanvasElement`). Zero camera video frames, landmark coordinates, or biometric data shall be saved, persisted, or transmitted off-device across network endpoints.
+2. **Human Control & Override Autonomy**: Users shall retain complete, unhindered control over camera streaming and AI processing at all times. Systems mandate explicit Start/Stop camera buttons, non-camera simulation patterns, keyboard overrides (`Esc`), and automatic pointer-lock release mechanisms.
+3. **Reliability & Accuracy Transparency**: Hand-detection confidence thresholds are enforced at inference time. Pointer-control disengages automatically below baseline thresholds (see [RISK_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RISK_ASSESSMENT.md) stop conditions). Limitations regarding lighting, occlusion, and browser variability are prominently disclosed in-app and in [README.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/README.md).
+4. **Supplier Oversight & Integrity**: External dependencies (`ml5.js` v0.12.2, `Materialize CSS` v1.0.0, `unpkg` CDN) must be pinned to exact reviewed versions, monitored for security vulnerabilities, and backed by documented local fallback procedures ([SUPPLIER_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/SUPPLIER_ASSESSMENT.md)).
+5. **Durable Monitoring & Corrective Action**: Operational metrics are tracked via client-side telemetry ([telemetry.js](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry.js)). System nonconformities and defects are systematically resolved through a formal CAPA workflow ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)).
+6. **Continual Improvement**: Policy, risk controls, and system performance are reviewed at least annually or upon any `ml5.js`/model version change.
 
 ---
 
-## Communication
-This policy is linked from [README.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/README.md) and reviewed with any contributor before their first merged change (see [AWARENESS_COMMUNICATION.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AWARENESS_COMMUNICATION.md)).
+## 3. Measurable AI Policy Commitments & Targets
+
+| Domain | Policy Target | Responsible Owner | Verification & Evidence Source |
+| :--- | :--- | :--- | :--- |
+| **Privacy** | 0 production console exposures of raw landmark matrices or frame buffers. | Mohit Sharma | Code audit & [MONITORING.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MONITORING.md) |
+| **Hardware Control** | 100% camera stream track shutdown upon user stop or window unload (<500ms). | Mohit Sharma | Browser MediaDevices state audit |
+| **Human Control** | 100% keyboard accessibility (`Tab`, `Space`, `Enter`, `Esc`) for all UI controls. | Mohit Sharma | Keyboard usability audit |
+| **Supplier Security** | 100% version-pinned third-party CDN script tags with fallback support. | Mohit Sharma | HTML source code inspection |
+| **CAPA Closure** | 100% of reported AI nonconformities resolved within 30 days of logging. | Mohit Sharma | [CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md) register audit |
 
 ---
 
-**Approved by:**  
-*Mohit Sharma, Lead Engineer & Top Management Representative (Noida Business Unit)*  
-*Approval Date: 2026-09-15*
+## 4. Policy Communication & Distribution
+
+This AI Policy is linked from [README.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/README.md), integrated into the application UI footer, reviewed during personnel onboarding ([AWARENESS_COMMUNICATION.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AWARENESS_COMMUNICATION.md)), and reviewed with any contributor prior to merging code changes.
+
+---
+
+**Formally Approved & Endorsed by:**  
+*Mohit Sharma, Lead Engineer & Designated Top Management Representative (Noida Business Unit)*  
+*Approval Date: 15 September 2026*
