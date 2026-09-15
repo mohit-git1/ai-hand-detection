@@ -2,73 +2,128 @@
 <html lang="en">
 
 <head>
-  <title>Hand mouse control</title>
+  <title>Hand Mouse Control (Simulated Demo)</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simulated hand pointer gesture demonstration using ml5.js. For demonstration purposes only.">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="style.css">
+  <!-- Pinned dependency version: ml5.js 0.12.2 -->
   <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js" type="text/javascript"></script>
 </head>
 
 <body>
-  <h2 id="loadingText">Loading...</h2>
-  <!-- video with size of 0px because of chrome -->
-  <video playsinline autoplay muted controls="true" id="video"></video>
-  <br><br>
-  <canvas id="c1" class="mirror"></canvas>
-  <canvas id="mouse" class="mouse"></canvas>
-  <br><br>
-  <table>
-    <tr>
-      <td>AI:</td>
-      <td>
-        <div class="switch">
-          <label>
-            Off
-            <input type="checkbox" id="ai" disabled>
-            <span class="lever"></span>
-            On
-          </label>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>Border:</td>
-      <td>
-        <p class="range-field">
-          <input type="range" id="border" min="0" max="500" value="200" step="100">
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>FPS:</td>
-      <td>
-        <p class="range-field">
-          <input type="range" id="fps" min="1" max="40" value="30">
-        </p>
-      </td>
-    </tr>
-  </table>
+  <header class="notice-banner" role="region" aria-label="Intended Use Notice">
+    <h3>🖱️ Hand Mouse Control (Simulated Demonstration)</h3>
+    <p><strong>Intended Use:</strong> This sub-module is a <em>simulated pointer interaction demonstration</em> showing how hand pose landmarks can control an on-screen visual pointer.</p>
+  </header>
 
-  <!-- is needed to prevent lag at first predict -->
-  <img src="pointer.png" id="img" style="display: none;">
+  <div class="prohibited-warning" role="region" aria-label="Prohibited Use Warning">
+    ⚠️ <strong>Prohibited Uses:</strong> Do NOT use this pointer demonstration for actual safety-critical device control, biometric identification, surveillance, or high-risk decision systems.
+  </div>
+
+  <main>
+    <div id="statusContainer">
+      <h2 id="loadingText">Loading AI Model...</h2>
+      <div id="statusRegion" class="status-badge status-stopped" role="status" aria-live="polite">
+        Model Initializing...
+      </div>
+    </div>
+
+    <!-- Hidden video element required for Chrome stream -->
+    <video playsinline autoplay muted id="video" aria-hidden="true"></video>
+    <br>
+
+    <canvas id="c1" class="mirror" aria-label="Camera tracking view" role="img"></canvas>
+    <canvas id="mouse" class="mouse" aria-hidden="true"></canvas>
+    <br><br>
+
+    <div class="card-panel" style="max-width: 800px; margin: 0 auto; text-align: left;">
+      <h5>📷 Camera & Pointer Controls</h5>
+      <p style="font-size: 0.9rem; color: #555;">
+        <strong>Privacy Notice:</strong> Processing is session-scoped and client-side inside browser memory. Camera imagery and landmark coordinates are never saved or transmitted. Press <strong>ESC</strong> at any time to exit pointer mode.
+      </p>
+
+      <div style="margin-bottom: 15px;">
+        <button id="startCamBtn" class="btn waves-effect waves-light btn-ctrl" aria-label="Start Camera Stream">
+          Start Camera
+        </button>
+        <button id="stopCamBtn" class="btn waves-effect waves-light red btn-ctrl" aria-label="Stop Camera Stream">
+          Stop Camera
+        </button>
+        <button id="exitPointerBtn" class="btn waves-effect waves-light orange btn-ctrl" aria-label="Stop and Exit Pointer Mode">
+          Exit Pointer Mode (ESC)
+        </button>
+      </div>
+
+      <table role="presentation">
+        <tr>
+          <td><label for="ai">Pointer Lock AI Mode:</label></td>
+          <td>
+            <div class="switch">
+              <label>
+                Off
+                <input type="checkbox" id="ai" disabled aria-label="Toggle AI Pointer Lock Mode">
+                <span class="lever"></span>
+                On
+              </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="border">Sensitivity Area Border (px):</label></td>
+          <td>
+            <p class="range-field">
+              <input type="range" id="border" min="0" max="500" value="200" step="100" aria-label="Adjust Pointer Boundary Margin">
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="fps">Target FPS Control:</label></td>
+          <td>
+            <p class="range-field">
+              <input type="range" id="fps" min="1" max="40" value="30" aria-label="Adjust Frame Rate Processing Speed">
+            </p>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <section class="limitation-box" role="region" aria-label="Pointer Reliability Limitations">
+      <h6>ℹ️ Pointer Stability Limitations</h6>
+      <ul>
+        <li>• <strong>Coordinate Jitter:</strong> Hand movement jitter is mitigated via exponential coordinate smoothing, but rapid movements may reduce precision.</li>
+        <li>• <strong>Lock Release:</strong> Exiting pointer lock mode immediately halts cursor tracking and returns standard OS cursor control.</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Needed to initialize ml5 handpose predict pipeline safely -->
+  <img src="pointer.png" id="img" style="display: none;" alt="">
 
   <script>
     var modelIsLoaded = false;
 
-    // Create a handpose method
+    // Create ml5 handpose instance
     const handpose = ml5.handpose({}, {}, modelLoaded);
 
-    // When the model is loaded
     function modelLoaded() {
       let img = document.getElementById("img");
-
       handpose.predict(img, results => {
-        console.log(results)
-        console.log("Model Loaded!");
+        // Redacted raw production console logging per GovernXOne finding
         modelIsLoaded = true;
+        const statusRegion = document.getElementById("statusRegion");
+        const loadingText = document.getElementById("loadingText");
+        if (loadingText) loadingText.style.display = "none";
+        if (statusRegion) {
+          statusRegion.innerText = "Model Ready. Click 'Start Camera' to begin pointer demo.";
+          statusRegion.className = "status-badge status-searching";
+        }
+        const aiCb = document.getElementById("ai");
+        if (aiCb && typeof cameraAvailable !== 'undefined' && cameraAvailable) {
+          aiCb.disabled = false;
+        }
       });
-
     }
   </script>
   <script src="video.js"></script>

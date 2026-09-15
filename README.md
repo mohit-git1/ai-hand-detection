@@ -1,37 +1,62 @@
 # 🤖 ai-hand-detection
+
 ## 👋 About this project
-This is a web AI hand detection. You can use it in your web browser. This web application uses the camera of your device to detect your hand.
+`ai-hand-detection` is an interactive browser-based hand detection and landmark visualization web application. It uses client-side machine learning via `ml5.js` (MediaPipe Handpose) to track hand landmarks directly within the user's browser.
+
+---
+
+## 🔒 Governance, Privacy & AI Safety Controls
+
+This codebase has been updated in alignment with **ISO/IEC 42001 AI Management System** risk assessment recommendations:
+
+### 1. Intended Use
+- **Permitted Purposes:** Interactive hand landmark visualization, computer vision demonstration, and simulated pointer interaction.
+- **Prohibited Uses:** Identity verification, authentication, physical/digital access control, profiling, surveillance, medical/health assessment, employment decisions, or any other consequential decision-making system.
+
+### 2. Privacy & Camera Security
+- **100% Client-Side Processing:** All camera frames and hand landmarks are processed inside the browser memory. Zero imagery or landmark data is saved, stored, or transmitted across the network.
+- **Hardware Release:** Explicit camera start/stop controls ensure that physical camera streams are cleanly closed when disabled or when navigating away.
+- **Zero Console Exposure:** Raw inference results, landmark vectors, and device parameters are not logged in production builds.
+
+### 3. Governance Documentation
+- 📄 [GOVERNANCE.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/GOVERNANCE.md) — Risk register, data flow, model limitations, and incident handling policy.
+- 📦 [DEPENDENCIES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/DEPENDENCIES.md) — Pinned third-party dependencies (`ml5.js 0.12.2`, `Materialize 1.0.0`) and supply chain governance.
+- 🧪 [TESTING.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/TESTING.md) — Validation plan for lighting, occlusion, background clutter, devices, and failure handling.
+- ✅ [VERIFICATION.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/VERIFICATION.md) — Step-by-step verification procedures for each implemented safety control.
+
+---
 
 ## ⚙️ Features
 
-- ✅ Toggle switch to turn AI on or off
-- ✅ Range slider to control frame rate
-- ✅ Mouse example to show a possible usage case
-- ✅ Configurable border in mouse example
+- ✅ Toggle switch to turn AI detection overlay on or off
+- ✅ Explicit Camera Start / Stop buttons with physical stream release
+- ✅ Target FPS processing speed slider
+- ✅ Keyboard accessible navigation and controls (`Tab`, `Space`, `Enter`, `Esc`)
+- ✅ Simulated hand pattern mode (non-camera alternative)
+- ✅ Simulated mouse pointer interaction demo with coordinate smoothing
+- ✅ Configurable border sensitivity in mouse example
 
-## 🖼️ Images
-<a href="https://ibb.co/T15LJDH"><img src="https://i.ibb.co/Vx8mb0v/Screenshot-2021-04-08-AI-hand-detection.png" alt="live AI-hand-detection"></a>
+---
 
-## 💪 Try it
-If you are not convinced yet just try it out here: https://hand-detection.ai.woody.pizza/
+## 🚀 How to Run Locally
 
-There is also an example where you can control the mouse by using your hand: https://hand-detection.ai.woody.pizza/mouse
+Because browser webcam permissions require an HTTP context, run a local web server:
 
-## 🌐 Multiple browser support
-Probably this will work with the most browsers, but here is a list which browsers I have tested: 
+### Option 1: Python HTTP Server (Recommended)
+```bash
+python3 -m http.server 8000
+```
+Then navigate to:
+- **Main App:** [http://localhost:8000](http://localhost:8000)
+- **Mouse Demo:** [http://localhost:8000/mouse/](http://localhost:8000/mouse/)
 
-|      Browser      | supported |
-|:-----------------:|:---------:|
-|      Firefox      |     ✅     |
-|      Chrome       |     ✅     |
-|        Edge       |     ✅     |
-| Internet Explorer |     ❌     |
+### Option 2: Node.js / npx
+```bash
+npx serve .
+```
 
-| Mobile Browser | supported |
-|:--------------:|:---------:|
-|     Firefox    |     ✅     |
-|     Chrome     |     ✅     |
+---
 
-## ✌️ Credits
-- [Materialize](https://materializecss.com/)
-- [ml5js](https://ml5js.org/)
+## ✌️ Credits & Dependencies
+- [Materialize CSS v1.0.0](https://materializecss.com/)
+- [ml5.js v0.12.2](https://ml5js.org/)
