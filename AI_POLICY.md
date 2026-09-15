@@ -14,6 +14,9 @@
 - **Approval date**: 2026-09-15
 - **Review cycle**: Annual, next review due 2027-09-15
 
+> ℹ️ **Single-Maintainer Operational Limitation (Clause 5.1)**:  
+> As a single-maintainer open-source repository, Mohit Sharma serves as both System Owner and Sponsor of Record. Complete separation of duties between top management leadership and compliance owner is documented as an accepted operational limitation for this single-maintainer repository context.
+
 ---
 
 ## Top Management Policy Statement

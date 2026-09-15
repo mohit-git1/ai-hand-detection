@@ -68,6 +68,7 @@ function startCamera() {
         .catch(function (err) {
             cameraAvailable = false;
             safeLog("Camera permission denied or camera unavailable");
+            if (typeof Telemetry !== 'undefined') Telemetry.recordPermissionDenial();
             if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
                 updateStatus("Camera access denied. Please grant permission in browser.", "status-stopped");
             } else {
@@ -230,14 +231,17 @@ function ai() {
     if (!modelIsLoaded || !aiEnabled) return;
 
     handpose.predict(c1, results => {
-        // Redacted raw production console logging per GovernXOne finding
         safeLog(results && results.length > 0 ? `Detected ${results.length} hand(s)` : "No hand detected");
 
         if (!results || results.length === 0) {
+            if (typeof Telemetry !== 'undefined') Telemetry.recordFrame(null);
             handDetectedState = false;
             updateStatus("AI Active: Searching for hand (No hand detected)...", "status-searching");
             return;
         }
+
+        const confidence = (results[0] && typeof results[0].handInViewConfidence === 'number') ? results[0].handInViewConfidence : 0.85;
+        if (typeof Telemetry !== 'undefined') Telemetry.recordFrame(confidence);
 
         handDetectedState = true;
         updateStatus(`AI Active: Hand Detected (${results.length})`, "status-active");

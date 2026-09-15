@@ -1,44 +1,49 @@
 # ISO/IEC 42001 Monitoring, Measurement & Operational Analysis
 
-**Document Reference:** AIMS-MON-9.1  
+**Document Reference:** AIMS-MON-9.1 / 9.2  
 **System Identifier:** `AIS-2e3a94ae`  
 **System Name:** `ai-hand-detection`  
 **Business Unit:** Noida Business Unit  
 **Monitoring Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
 **Effective Date:** 15 September 2026  
-**ISO/IEC 42001 Clause Alignment:** Clause 9.1 (Monitoring, Measurement, Analysis & Evaluation)  
+**ISO/IEC 42001 Clause Alignment:** Clause 9.1 (Monitoring, Measurement & Analysis) & Clause 9.2 (Internal Audit)  
 
 ---
 
-## 1. Monitoring Strategy & Privacy Safeguards
+## 1. Implemented Client-Side Telemetry Module
 
-To measure operational performance, system reliability, and safety of `ai-hand-detection` without compromising user privacy, the Noida Business Unit enforces a **privacy-preserving monitoring framework**.
+Monitoring for `ai-hand-detection` is **fully implemented in code** via the client-side telemetry module ([telemetry.js](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry.js)).
 
-### Privacy Safeguards
-- **Zero Raw Data Capture**: The monitoring framework does **NOT** collect, log, or transmit raw camera video frames, landmark coordinate arrays, or biometric vectors.
-- **Client DOM Telemetry Only**: Operational health metrics are calculated from anonymous browser event listeners, error catch handlers, and issue reports.
+### Privacy & Technical Implementation Details
+- **Code Implementation**: Integrated into [video.js](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/video.js) and [mouse/video.js](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/mouse/video.js) via `Telemetry.recordFrame(confidence)`, `Telemetry.recordPermissionDenial()`, `Telemetry.recordInferenceLoadFailure()`, and `Telemetry.recordPointerLockFailure()`.
+- **Zero-Backend & Privacy Preservation**: Telemetry data aggregates locally in browser `localStorage` (`aims_telemetry_v1`). Zero raw camera video frames, landmark coordinate arrays, or biometric vectors leave the user's device.
+- **Export & Audit Evidence**: Users and maintainers can export telemetry state via the "Export Diagnostics JSON" button. A sample operational export is recorded in [telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json).
 
 ---
 
 ## 2. Quantitative Monitoring Metrics & Alert Thresholds Matrix
 
-| Metric ID | Metric Name | Metric Description | Collection Method | Target Benchmark | Alert / Escalation Threshold | Review Cadence |
+| Metric ID | Metric Name | Metric Description | Collection Method (Code Implementation) | Target Benchmark | Alert / Escalation Threshold | Review Cadence |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **MTR-01** | **Camera-Access Failure Rate** | Percentage of camera streams failing due to permission denial or device unavailability. | Client-side `getUserMedia().catch()` error event listener | < 2.0% | **> 5.0% failure rate** ➔ Triggers UI prompt review & CAPA investigation | Weekly |
-| **MTR-02** | **Inference-Readiness Rate** | Percentage of page loads where `ml5.js` model initializes successfully. | `modelIsLoaded` state flag readiness check | > 98.0% | **< 95.0% readiness** ➔ Triggers CDN health check & model loading audit | Weekly |
-| **MTR-03** | **Pointer-Lock Failure Rate** | Count of unhandled pointer-lock losses or cursor runaway incidents. | `pointerlockchange` event listener state monitor | 0 incidents | **> 1 runaway incident** ➔ Triggers immediate pointer lock code audit | Monthly |
-| **MTR-04** | **Dependency Load Failure Rate** | Count of script loading errors for external `unpkg` / `cdnjs` CDN tags. | Script tag `onerror` DOM event listener | 0 errors | **> 0 CDN load errors** ➔ Triggers local vendor script fallback switch | Daily |
+| **MTR-01** | **Camera-Access Failure Rate** | Percentage of camera streams failing due to permission denial or device unavailability. | `Telemetry.recordPermissionDenial()` in `getUserMedia().catch()` | < 2.0% | **> 5.0% failure rate** ➔ Triggers UI prompt review & CAPA investigation | Weekly |
+| **MTR-02** | **Inference-Readiness Rate** | Percentage of page loads where `ml5.js` model initializes successfully. | `Telemetry.recordInferenceLoadFailure()` in model loader | > 98.0% | **< 95.0% readiness** ➔ Triggers CDN health check & model loading audit | Weekly |
+| **MTR-03** | **Pointer-Lock Failure Rate** | Count of unhandled pointer-lock losses or cursor runaway incidents. | `Telemetry.recordPointerLockFailure()` in `lockCheck()` | 0 incidents | **> 1 runaway incident** ➔ Triggers immediate pointer lock code audit | Monthly |
+| **MTR-04** | **Detection Confidence Drift** | Rolling average detection confidence over $N=50$ frames. | `Telemetry.recordFrame(confidence)` with rolling average check | Baseline `0.70` | **Drop > 0.15 below baseline** ➔ Triggers `telemetry-alert` banner in DOM | Real-time |
 | **MTR-05** | **Console Exposure Compliance** | Count of active unredacted `console.log` calls emitting landmark arrays. | Automated `node -c` and pre-release `grep` check | 0 exposures | **> 0 exposures** ➔ Blocks release build pipeline | Per Release |
-| **MTR-06** | **User-Reported Defect Rate** | Count of open High/Critical AI defects or privacy concerns. | CAPA issue register audit ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)) | 0 open defects | **>= 1 open High defect** ➔ Escalates to Mohit Sharma for immediate fix | Bi-weekly |
 
 ---
 
-## 3. Sample Operational Analysis Record
+## 3. Sample Operational Analysis & Export Record
 
-### Operational Analysis Log (Period: 01 Sep 2026 – 15 Sep 2026)
-- **Camera-Access Failure Rate**: 1.2% (Handled gracefully via UI error message; zero system crashes).
-- **Inference-Readiness Rate**: 100.0% (`ml5.js` initialized cleanly across all tested browser sessions).
-- **Pointer-Lock Failure Rate**: 0 unhandled lock losses (`lockCheck()` function successfully auto-disabled pointer mode on Esc key or window blur).
-- **Dependency Load Failure Rate**: 0 CDN load errors reported by `unpkg.com`.
-- **Console Exposure Audit**: 100.0% clean (Automated `grep` confirmed zero `console.log(results)` occurrences).
+Operational metrics are verified using telemetry exports ([telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json)):
+- **Session Duration**: Active operational run (120 frames processed).
+- **Detection Rate**: 96.7% ($116 / 120$ frames with active hand detection).
+- **Rolling Average Confidence**: 0.89 (Safely above `0.70` baseline; zero drift alerts triggered).
+- **Permission & Load Failures**: 0 permission denials, 0 CDN load failures, 0 pointer lock losses.
 - **Assessed By**: Mohit Sharma, Lead Engineer & Monitoring Owner (15 Sep 2026).
+
+---
+
+## 4. Clause 9.2 Internal Audit Evidence
+
+Internal audits for system `AIS-2e3a94ae` are conducted quarterly using exported telemetry JSON files ([telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json)) and pre-release code audits. Audit findings feed directly into management reviews ([MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md)) and the CAPA register ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)).

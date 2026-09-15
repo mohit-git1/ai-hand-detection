@@ -81,6 +81,7 @@ function startCamera() {
         .catch(function (err) {
             cameraAvailable = false;
             safeLog("Camera access denied or unavailable");
+            if (typeof Telemetry !== 'undefined') Telemetry.recordPermissionDenial();
             if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
                 updateStatus("Camera access denied. Grant permission to use demo.", "status-stopped");
             } else {
@@ -115,6 +116,7 @@ function toggleAi() {
             c1.requestPointerLock();
             updateStatus("Pointer Demo Active (Press ESC to exit)", "status-active");
         } catch (e) {
+            if (typeof Telemetry !== 'undefined') Telemetry.recordPointerLockFailure();
             safeLog("Pointer lock request failed");
         }
     } else {
@@ -136,6 +138,7 @@ function exitPointerMode() {
 function lockCheck() {
     if (!/Mobi|Android/i.test(navigator.userAgent)) {
         if (document.pointerLockElement !== c1 && aiEnabled) {
+            if (typeof Telemetry !== 'undefined') Telemetry.recordPointerLockFailure();
             safeLog("Pointer lock lost - auto disabling pointer mode");
             exitPointerMode();
         }
@@ -254,15 +257,18 @@ function ai() {
     if (!modelIsLoaded || !aiEnabled) return;
 
     handpose.predict(c1, results => {
-        // Redacted raw production console logging per GovernXOne finding
         safeLog(results && results.length > 0 ? `Pointer Demo: Detected ${results.length} hand(s)` : "Pointer Demo: No hand");
 
         if (!results || results.length === 0) {
+            if (typeof Telemetry !== 'undefined') Telemetry.recordFrame(null);
             handDetectedState = false;
             setFakeMouse(0, 0, false);
             updateStatus("Pointer Active: Searching for hand...", "status-searching");
             return;
         }
+
+        const confidence = (results[0] && typeof results[0].handInViewConfidence === 'number') ? results[0].handInViewConfidence : 0.85;
+        if (typeof Telemetry !== 'undefined') Telemetry.recordFrame(confidence);
 
         handDetectedState = true;
         updateStatus("Pointer Active: Hand Tracking Live", "status-active");

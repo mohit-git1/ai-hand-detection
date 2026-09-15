@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
   <!-- Pinned dependency version: ml5.js 0.12.2 -->
   <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js" type="text/javascript"></script>
+  <script src="telemetry.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -53,7 +54,12 @@
         <button id="simulateBtn" class="btn waves-effect waves-light grey btn-ctrl" aria-label="Toggle Hand Simulation Pattern">
           Simulate Hand Pattern (No Camera)
         </button>
+        <button id="exportTelemetryBtn" class="btn waves-effect waves-light blue btn-ctrl" onclick="Telemetry.exportJSON()" aria-label="Export Telemetry JSON Data">
+          Export Diagnostics JSON
+        </button>
       </div>
+
+      <div id="telemetry-panel" style="margin-bottom: 15px; padding: 10px; background: #eef2f5; border-radius: 4px; font-size: 0.85rem;" role="region" aria-label="Operational Telemetry Panel"></div>
 
       <table role="presentation">
         <tr>
