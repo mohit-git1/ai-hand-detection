@@ -1,0 +1,39 @@
+name: ISO 42001 Continuous Integration Quality & Security Gate
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  compliance-and-security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run ISO 42001 Compliance Audit Check
+        run: |
+          chmod +x scripts/audit_check.sh
+          ./scripts/audit_check.sh
+
+      - name: Verify Unredacted Console Logging Redaction
+        run: |
+          echo "Auditing JavaScript files for raw prediction output logging..."
+          if grep -rn "console.log(results)" video.js mouse/video.js; then
+            echo "ERROR: Unredacted raw prediction console output found!"
+            exit 1
+          else
+            echo "SUCCESS: Zero raw prediction console output detected."
+          fi
+
+      - name: Verify CDN Dependency Version Pinning
+        run: |
+          echo "Verifying ml5.js dependency version pinning in HTML files..."
+          if grep -q "unpkg.com/ml5@0.12.2" index.html && grep -q "unpkg.com/ml5@0.12.2" mouse/index.html; then
+            echo "SUCCESS: ml5.js version 0.12.2 is pinned."
+          else
+            echo "ERROR: ml5.js dependency version is unpinned or mismatched!"
+            exit 1
+          fi

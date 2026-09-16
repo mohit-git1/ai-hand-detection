@@ -1,9 +1,27 @@
-# Governance & Risk Management Document
+# Governance & Risk Management Charter
 
-## 1. Executive Summary & Application Scope
-This document outlines the governance, risk controls, and data protection measures implemented for the `ai-hand-detection` web application in alignment with ISO/IEC 42001 AI Management System recommendations.
+**Document Reference:** AIMS-GOV-5.1  
+**System Identifier:** `AIS-2e3a94ae`  
+**System Name:** `ai-hand-detection`  
+**ISO/IEC 42001 Clause Alignment:** Clause 5.1 (Leadership & Commitment) & Clause 5.2 (AI Policy)  
 
-**Application Purpose**: Browser-based interactive hand visualization and pointer movement demonstration using client-side `ml5.js` handpose detection.
+---
+
+## 1. Top Management Leadership & Sponsorship Charter
+
+Top management of the Noida Business Unit demonstrates leadership and commitment with respect to the AI Management System (AIMS) by:
+
+1. **Ensuring Strategic Alignment**: Establishing that AI policies and objectives are compatible with the strategic direction of the organization.
+2. **Resource Provisioning**: Allocating necessary staffing, client compute budget, hosting infrastructure, and tools to maintain effective AI risk controls ([RESOURCES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RESOURCES.md)).
+3. **Endorsing Governance & Risk Controls**: Signing and endorsing the AI Policy ([AI_POLICY.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AI_POLICY.md)) and formal risk treatment plans ([RISK_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RISK_ASSESSMENT.md)).
+4. **Conducting Periodic Management Reviews**: Convening semi-annual management reviews ([MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md)) to assess system effectiveness, audit findings, CAPA status, and continual improvement initiatives.
+5. **Promoting Continual Improvement**: Supporting systematic retrospectives and nonconformity resolution ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md), [CONTINUAL_IMPROVEMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CONTINUAL_IMPROVEMENT.md)).
+
+### Top Management Sponsor Sign-Off
+- **Top Management Sponsor**: Mohit Sharma (Lead Engineer & Designated Top Management Representative, Noida Business Unit)
+- **Signature & Endorsement**: *Mohit Sharma* (Signed electronically on 15 September 2026)
+
+---
 
 ## 2. Intended vs. Prohibited Uses
 
@@ -23,11 +41,15 @@ The application and its underlying model outputs must **NOT** be used for:
 - Safety-critical system control or industrial operation.
 - Any other consequential or high-risk decision-making context.
 
+---
+
 ## 3. Camera Data Flow & Privacy Framework
 - **Client-Side Scope**: Camera frames are captured via `navigator.mediaDevices.getUserMedia` and processed strictly within the client browser DOM (`HTMLCanvasElement`).
 - **No Remote Transmission**: Camera streams, frame buffers, and hand landmark coordinates are **never** transmitted over network protocols to external servers or telemetry endpoints.
 - **Transient Memory Lifecycle**: Frame imagery and landmark vectors exist transiently in JavaScript heap memory during processing loops and are automatically overwritten on subsequent frame iterations.
 - **Stream Termination**: Explicit camera stop controls and page unload listeners invoke `MediaStreamTrack.stop()` to ensure physical camera hardware is released immediately when disabled or when navigating away.
+
+---
 
 ## 4. Model Limitations & Mitigations
 The application relies on the `ml5.js` / MediaPipe Handpose model. Operational performance varies based on environment and user characteristics:
@@ -36,7 +58,9 @@ The application relies on the `ml5.js` / MediaPipe Handpose model. Operational p
 - **Diversity & Mobility**: Model behavior may vary across skin tones, hand sizes, and mobility conditions.
 - **Mitigation**: Clear UI limitation disclaimers, visual tracking status indicators ("No Hand Detected", "Tracking Active"), coordinate exponential smoothing to prevent cursor jumps, and non-gesture alternative controls.
 
-## 5. Risk Register
+---
+
+## 5. Risk Register Summary
 
 | Risk ID | Identified Risk Description | Implemented Control | Verification Method | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -48,6 +72,8 @@ The application relies on the `ml5.js` / MediaPipe Handpose model. Operational p
 | **R-06** | Exclusion of non-camera or keyboard-only users | Full keyboard navigation (`Tab`, `Space`, `Enter`, `Esc`); ARIA live regions; test mode | Keyboard-only accessibility audit | **Mitigated** |
 | **R-07** | Supply chain vulnerability from unpinned third-party scripts | Documented CDN dependencies, pinned versions (`ml5@0.12.2`), review policy | Dependency audit & network check | **Mitigated** |
 
-## 6. Incident Handling & Release Review Policy
-- **Dependency Audit**: Any update to `ml5.js` or Materialize CSS must be reviewed for privacy changes before deployment.
-- **Release Verification**: Pre-release checklists must confirm zero console logging of landmark vectors and verify complete camera shutdown behavior.
+---
+
+## 6. Governance Review & Change Management Policy
+- **Dependency Audit**: Any update to `ml5.js` or Materialize CSS must be reviewed for privacy changes before deployment under [CHANGE_CONTROL.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CHANGE_CONTROL.md).
+- **Release Verification**: Pre-release checklists must confirm zero console logging of landmark vectors and verify complete camera shutdown behavior ([OPERATIONAL_RUNBOOK.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/OPERATIONAL_RUNBOOK.md)).

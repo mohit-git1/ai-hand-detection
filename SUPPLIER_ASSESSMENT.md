@@ -1,33 +1,37 @@
-# ISO/IEC 42001 Supplier Assessment & Dependency Controls
+# ISO/IEC 42001 Third-Party Supplier Assessment & Governance
 
 **Document Reference:** AIMS-SUP-8.4  
 **System Identifier:** `AIS-2e3a94ae`  
 **System Name:** `ai-hand-detection`  
-**Business Unit:** Noida Business Unit  
-**Supplier Assessment Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
-**Effective Date:** 15 September 2026  
+**Supplier Governance Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
 **ISO/IEC 42001 Clause Alignment:** Clause 8.4 & Annex A.10 (Supplier Relationships)  
 
 ---
 
-## 1. Supplier & Dependency Assessment Overview
+## 1. Supplier Governance Framework
 
-System `AIS-2e3a94ae` relies on external third-party software libraries and content delivery networks (CDNs). Under ISO/IEC 42001 Clause 8.4, all third-party AI components and hosting infrastructure must be assessed, documented, version-pinned, and monitored for availability and security risks.
-
----
-
-## 2. Supplier & Dependency Governance Register
-
-| Dependency / Supplier | Exact Pinned Version | CDN Source URL | License Check | Privacy & Security Risk Assessment | Fallback Decision & Action | Responsible Owner | Approval Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **ml5.js** (Open-Source Library) | `0.12.2` | `https://unpkg.com/ml5@0.12.2/dist/ml5.min.js` | MIT License (Verified) | **Low Risk**: Client-side JS library wrapping MediaPipe Handpose. Collects zero user telemetry. | **Fallback Decision**: If `unpkg.com` or `ml5.js` CDN becomes unavailable, switch application script tag to local self-hosted file at `/vendor/ml5.min.js`. | Mohit Sharma | **Approved** |
-| **Materialize CSS** (UI Framework) | `1.0.0` | `https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css` | MIT License (Verified) | **Low Risk**: Static CSS layout framework. Zero data capture or network execution. | **Fallback Decision**: Native browser HTML fallback styling if `cdnjs` is unreachable. | Mohit Sharma | **Approved** |
-| **UNPKG CDN** (NPM CDN Infrastructure) | Infrastructure | `https://unpkg.com/` | Public CDN Terms | **Low Risk**: High-availability static file distribution network built on Cloudflare edge. | **Fallback Decision**: Local self-hosting of static vendor scripts inside `/vendor/` directory. | Mohit Sharma | **Approved** |
+The Noida Business Unit evaluates, manages, and audits third-party AI libraries, script delivery networks (CDNs), and open-source suppliers used by `ai-hand-detection` to mitigate supply-chain security, privacy, and availability risks.
 
 ---
 
-## 3. Dependency Pinning & Fallback Rules
+## 2. Supplier Evaluation & Risk Register
 
-1. **Strict Version Pinning**: All script tags must specify explicit exact versions (`ml5@0.12.2`). Using unpinned or floating release tags (e.g. `@latest`, `@0.x`) is strictly prohibited.
-2. **Local Self-Hosting Fallback Procedure**: If script tag `onerror` triggers due to CDN outage, the application updates UI status to "CDN Unavailable" and allows administrators to switch script sources to local copy `/vendor/ml5.min.js`.
-3. **Semi-Annual Review Cadence**: Mohit Sharma conducts semi-annual security, license, and CVE reviews for all third-party dependencies (Next review: **15 March 2027**).
+| Supplier / Asset | Service Provided | Dependency Type | Pinning & Security Control | Supplier Risk | Fallback Procedure | Review Cadence |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`unpkg.com` (npm CDN)** | Hosting and delivery of `ml5.js` v0.12.2 library bundle | External Content Delivery Network (CDN) | Exact URL version pinning (`ml5@0.12.2`); HTTPS transport enforcement; automated dependency scan ([.github/workflows/dependency-scan.yml](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/.github/workflows/dependency-scan.yml)) | **Low** | Local fallback script pattern; UI status update to "Model Load Delay" | Annual |
+| **`ml5.js` Project (ITP @ NYU)** | Open-source browser computer vision library wrapper around MediaPipe Handpose | Open-source AI model library | Pinned version 0.12.2; pre-release code audit verifying zero telemetry transmission to external servers | **Low** | Interactive simulation mode pattern (`video.js:193`) requiring zero external model loads | Annual |
+| **`cdnjs.cloudflare.com`** | Materialize CSS framework stylesheet delivery | External CDN | Version-pinned URL (`materialize/1.0.0/css/materialize.min.css`) | **Low** | Local CSS fallback styles in [style.css](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/style.css) | Annual |
+
+---
+
+## 3. Dependency Review & Change Gate
+
+1. **No Floating Tags**: External script URLs referencing `latest` or unversioned endpoints are strictly prohibited in HTML files.
+2. **Periodic Vulnerability Scan**: Weekly automated workflow checks for reported vulnerabilities or integrity issues in external CDN packages.
+3. **Contract / Terms Review**: Confirm that unpkg and CDN terms of service do not collect or inspect client-side canvas data.
+
+---
+
+**Approved by:**  
+*Mohit Sharma, Supplier Governance Owner & Lead Engineer*  
+*Date: 15 September 2026*

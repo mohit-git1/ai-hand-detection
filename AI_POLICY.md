@@ -1,6 +1,7 @@
 # ISO/IEC 42001 AI Policy & Leadership Governance Charter
 
 **Document Reference:** AIMS-POL-5.2  
+**Document Revision:** 2.0  
 **System Identifier:** `AIS-2e3a94ae`  
 **System Name:** `ai-hand-detection`  
 **Organization / Unit:** Noida Business Unit  
@@ -8,11 +9,12 @@
 
 ---
 
-## 1. Top Management Sponsorship & Endorsement Record
+## 1. Document Control & Ownership
 
-- **Top Management Sponsor & Approver**: Mohit Sharma (Lead Engineer & Designated Top Management Representative, Noida Business Unit)
-- **Policy & Compliance Owner**: Mohit Sharma (System & Compliance Owner)
-- **Dated Approval Record**: **Approved & Endorsed on 15 September 2026** by Top Management Leadership (Noida Unit)
+- **Accountable Policy Owner**: Mohit Sharma (`mohit.sharma@noida.example.com`, Lead Engineer & Designated Top Management Representative)
+- **Top Management Sponsor**: Mohit Sharma (Designated Top Management Representative, Noida Business Unit)
+- **Status**: Controlled & Approved
+- **Effective Date**: 15 September 2026
 - **Review Cadence**: Annual (Next Scheduled Review: **15 September 2027**)
 
 > 📜 **Leadership Sponsorship Statement**:  

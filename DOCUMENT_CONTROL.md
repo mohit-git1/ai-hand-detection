@@ -1,46 +1,56 @@
-# ISO/IEC 42001 Documented Information Control Register
+# ISO/IEC 42001 Documented Information Control Procedure
 
 **Document Reference:** AIMS-DOC-7.5  
 **System Identifier:** `AIS-2e3a94ae`  
 **System Name:** `ai-hand-detection`  
-**Business Unit:** Noida Business Unit  
-**Document Register Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
-**Effective Date:** 15 September 2026  
+**Document Control Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
 **ISO/IEC 42001 Clause Alignment:** Clause 7.5 (Documented Information)  
 
 ---
 
-## 1. Document Control Policy & Identification
+## 1. Document Lifecycle & Control Rules
 
-All documented information required by ISO/IEC 42001 is controlled, versioned, reviewed, and stored in the root directory of the `ai-hand-detection` repository. 
+Documented information required by the AI Management System (AIMS) shall be controlled to ensure:
 
-Access is controlled via Git repository permissions. Every document features standard header metadata including Document Reference, System ID, Owner, Effective Date, and Review Schedule.
-
----
-
-## 2. Controlled AIMS Document Inventory Register
-
-| Document ID | Document Title | File Path | Version | Approval Status | Document Owner | Review Cadence |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **AIMS-DOC-4.4** | AIMS Scope Statement | [AIMS_SCOPE.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AIMS_SCOPE.md) | 1.0.0 | Approved | Mohit Sharma | Annual |
-| **AIMS-POL-5.2** | ISO 42001 AI Policy | [AI_POLICY.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AI_POLICY.md) | 1.0.0 | Approved | Mohit Sharma | Annual |
-| **AIMS-RISK-6.1** | Comprehensive & Operational AI Risk Assessment | [RISK_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RISK_ASSESSMENT.md) | 1.0.0 | Approved | Mohit Sharma | Semi-Annual |
-| **AIMS-CHG-6.3** | Change Control & Release Procedure | [CHANGE_CONTROL.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CHANGE_CONTROL.md) | 1.0.0 | Approved | Mohit Sharma | Annual |
-| **AIMS-RES-7.1** | Resources & Hosting Evidence | [RESOURCES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RESOURCES.md) | 1.0.0 | Approved | Mohit Sharma | Annual |
-| **AIMS-CMP-7.2** | Personnel Competence & Training Records | [COMPETENCE.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/COMPETENCE.md) | 1.0.0 | Approved | Mohit Sharma | Annual |
-| **AIMS-COM-7.3** | Awareness & Communication Matrix | [AWARENESS_COMMUNICATION.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AWARENESS_COMMUNICATION.md) | 1.0.0 | Approved | Mohit Sharma | Annual |
-| **AIMS-DOC-7.5** | Documented Information Control Register | [DOCUMENT_CONTROL.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/DOCUMENT_CONTROL.md) | 1.0.0 | Approved | Mohit Sharma | Annual |
-| **AIMS-RUN-8.1** | Operational Runbook & Deployment Controls | [OPERATIONAL_RUNBOOK.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/OPERATIONAL_RUNBOOK.md) | 1.0.0 | Approved | Mohit Sharma | Annual |
-| **AIMS-SUP-8.4** | Supplier Assessment & Dependency Controls | [SUPPLIER_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/SUPPLIER_ASSESSMENT.md) | 1.0.0 | Approved | Mohit Sharma | Semi-Annual |
-| **AIMS-MON-9.1** | Monitoring, Measurement & Analysis Strategy | [MONITORING.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MONITORING.md) | 1.0.0 | Approved | Mohit Sharma | Quarterly |
-| **AIMS-REV-9.3** | Management Review Minutes & Records | [MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md) | 1.0.0 | Approved | Mohit Sharma | Quarterly |
-| **AIMS-CAP-10.1** | Nonconformity & CAPA Process Records | [CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md) | 1.0.0 | Approved | Mohit Sharma | Event-driven |
-| **AIMS-IMP-10.2** | Continual Improvement Backlog | [CONTINUAL_IMPROVEMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CONTINUAL_IMPROVEMENT.md) | 1.0.0 | Approved | Mohit Sharma | Quarterly |
+1. **Availability & Suitability**: It is available and suitable for use, where and when it is needed.
+2. **Protection**: It is adequately protected (e.g. version-controlled in Git, protected main branch).
+3. **Identification & Format**: Documents follow standard naming, reference coding (`AIMS-XXX-clause`), and markdown format with clear title headers, author, approval date, and version history.
+4. **Review & Approval**: Controlled documents require review and approval by **Mohit Sharma** prior to release.
 
 ---
 
-## 3. Storage, Protection & Revision Control
+## 2. Managed Master Document Register
 
-- **Storage Location**: Git repository (`git@github.com:mohit-git1/ai-hand-detection.git`).
-- **Access Control**: Read/Write access restricted to authorized Noida Engineering personnel.
-- **Revision History**: Changes are tracked via Git commit history. Major updates bump document version numbers (e.g. `1.0.0` -> `2.0.0`).
+| Document ID | Document Title & Path | Owner | Current Version | Approval Date | Review Cadence |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `AIMS-POL-5.2` | [AI_POLICY.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AI_POLICY.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-GOV-5.1` | [GOVERNANCE.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/GOVERNANCE.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-SCP-4.1` | [AIMS_SCOPE.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AIMS_SCOPE.md) | Mohit Sharma | v1.0 | 15 Sep 2026 | Annual |
+| `AIMS-CHG-6.3` | [CHANGE_CONTROL.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CHANGE_CONTROL.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-RES-7.1` | [RESOURCES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RESOURCES.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-COM-7.2` | [COMPETENCE.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/COMPETENCE.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-AWR-7.3` | [AWARENESS_COMMUNICATION.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AWARENESS_COMMUNICATION.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-DOC-7.5` | [DOCUMENT_CONTROL.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/DOCUMENT_CONTROL.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-OPS-8.1` | [OPERATIONAL_RUNBOOK.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/OPERATIONAL_RUNBOOK.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-RSK-8.3` | [RISK_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RISK_ASSESSMENT.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-SUP-8.4` | [SUPPLIER_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/SUPPLIER_ASSESSMENT.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-DEP-8.4` | [DEPENDENCIES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/DEPENDENCIES.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-MON-9.1` | [MONITORING.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MONITORING.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Annual |
+| `AIMS-AUD-9.2` | [VERIFICATION.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/VERIFICATION.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Semi-Annual |
+| `AIMS-TST-9.1` | [TESTING.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/TESTING.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Semi-Annual |
+| `AIMS-MGT-9.3` | [MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Semi-Annual |
+| `AIMS-CAP-10.1` | [CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Continuous |
+| `AIMS-IMP-10.2` | [CONTINUAL_IMPROVEMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CONTINUAL_IMPROVEMENT.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Continuous |
+| `AIMS-CHG-7.4` | [CHANGELOG.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CHANGELOG.md) | Mohit Sharma | v2.0 | 15 Sep 2026 | Continuous |
+
+---
+
+## 3. Document Archival & Retention
+
+Superceded versions of controlled markdown documents are preserved in git commit history indefinitely. Obsolete documents are moved to an `archive/` folder or marked as deprecated with superceded links.
+
+---
+
+**Approved by:**  
+*Mohit Sharma, Document Control Owner & Lead Engineer*  
+*Date: 15 September 2026*

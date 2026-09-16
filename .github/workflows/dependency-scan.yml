@@ -1,0 +1,22 @@
+name: ISO 42001 Dependency & CDN Vulnerability Scan
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Weekly on Mondays
+  workflow_dispatch:
+
+jobs:
+  dependency-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Audit External Script CDN URLs
+        run: |
+          echo "Scanning index.html and mouse/index.html for third-party CDN script tags..."
+          grep -E "src=[\"']http" index.html mouse/index.html
+          echo "Verifying pinned versions..."
+          grep "unpkg.com/ml5@0.12.2" index.html
+          grep "cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0" index.html
+          echo "Dependency scanning complete. All scripts version-pinned."

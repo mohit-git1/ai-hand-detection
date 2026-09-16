@@ -1,64 +1,46 @@
-# ISO/IEC 42001 AI Risk Assessment & Operational Treatment
+# ISO/IEC 42001 Risk Assessment & Enforced Risk Treatment Plan
 
-**Document Reference:** AIMS-RISK-6.1 / 8.2  
+**Document Reference:** AIMS-RSK-8.3  
 **System Identifier:** `AIS-2e3a94ae`  
 **System Name:** `ai-hand-detection`  
-**Business Unit:** Noida Business Unit  
 **Risk Assessment Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
-**Effective Date:** 15 September 2026  
-**ISO/IEC 42001 Clause Alignment:** Clause 6.1 (AI Risk Assessment) & Clause 8.2 (Operational AI Risk Assessment)  
+**ISO/IEC 42001 Clause Alignment:** Clause 8.3 (AI Risk Treatment)  
 
 ---
 
-## 1. Methodology & Risk Evaluation Criteria
+## 1. AI Risk Management Methodology
 
-Risks are evaluated using a standard 5x5 Likelihood and Severity matrix:
-- **Likelihood (1–5)**: 1 (Rare), 2 (Unlikely), 3 (Possible), 4 (Likely), 5 (Almost Certain)
-- **Severity (1–5)**: 1 (Insignificant), 2 (Minor), 3 (Moderate), 4 (Major), 5 (Critical)
-- **Residual Risk**: Risk rating after applying operational controls and technical mitigations.
+The Noida Business Unit conducts systematic risk assessments for system `AIS-2e3a94ae` evaluating privacy impact, AI output validity, hardware control, supply chain integrity, and user autonomy.
+
+### Risk Scoring Criteria
+- **Likelihood**: 1 (Unlikely) to 5 (Frequent)
+- **Impact**: 1 (Negligible) to 5 (Critical)
+- **Risk Level**: Likelihood × Impact (Low 1-5, Medium 6-12, High 15-25)
 
 ---
 
-## 2. Comprehensive AI Risk Register & Operational Stop Conditions
+## 2. Risk Register & Enforced Operational Treatment Plan
 
-| Risk | Likelihood | Severity | Owner | Mitigation | Residual Risk | Stop Condition |
+| Risk ID | Identified Risk Description | Initial Risk | Enforced Code & Operational Risk Treatment | Residual Risk | Verification Method | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Camera Permission Denial** | 4 (Likely) | 3 (Moderate) | Mohit Sharma | Pre-permission privacy banner explaining camera usage; graceful fallback error handling; user-selectable "Simulate Hand Pattern" mode. | Low (Score: 3) | **Stop Condition**: If `navigator.mediaDevices.getUserMedia()` throws `NotAllowedError` or `PermissionDeniedError`, immediately set UI status to "Camera Access Denied", disable AI toggle checkbox (`ai.disabled = true`), and halt video element stream initialization. |
-| **Inaccurate Hand Detection** | 4 (Likely) | 3 (Moderate) | Mohit Sharma | Environmental limitation warnings (lighting, clutter, pose); visual status badges ("No Hand Detected", "Searching..."); canvas reset on lost tracking. | Low (Score: 4) | **Stop Condition**: If detection confidence < 0.5 or 0 hands are detected for N=3 consecutive frames, disable pointer interaction, clear canvas landmark overlays, and update UI status badge to "AI Active: Searching for hand...". |
-| **Unintended Pointer Movement** | 4 (Likely) | 3 (Moderate) | Mohit Sharma | Exponential coordinate smoothing (`alpha = 0.25`); middle-finger coordinate boundary clamping; prominent "Exit Pointer Mode" button; `Esc` key listener. | Low (Score: 4) | **Stop Condition**: If middle-finger coordinate delta exceeds >200px in a single frame without smooth tracking, or if `pointerlockchange` event fires (lock lost), immediately call `exitPointerMode()`, uncheck AI switch (`ai.checked = false`), and clear fake mouse cursor canvas. |
-| **ml5.js / CDN Dependency Failure** | 3 (Possible) | 4 (Major) | Mohit Sharma | Pin dependencies to exact versions (`ml5@0.12.2`, `materialize@1.0.0`); script `onerror` listener; documented local self-hosting fallback (`/vendor/ml5.min.js`). | Low (Score: 4) | **Stop Condition**: If external `unpkg.com` CDN script fails to load (HTTP status != 200 or script `onerror` triggers), set UI status to "Model Load Error: CDN Unavailable", keep controls disabled, and prevent camera invocation. |
-| **Privacy Exposure from Biometric Landmark Capture** | 4 (Likely) | 4 (Major) | Mohit Sharma | Complete removal of raw `console.log(results)` calls; safe `DEBUG_LOGGING` opt-in wrapper (count-only logging, zero landmark coordinates); physical stream track shutdown (`track.stop()`) on exit. | Low (Score: 2) | **Stop Condition**: If DevTools console inspection or pre-release `grep` audit reveals any active unredacted `console.log` of raw landmark coordinate arrays, immediately halt production release build pipeline. |
+| **R-01** | Production console exposure of handpose landmark coordinates or frame data. | **High (15)** | Redacted all raw `console.log(results)` calls in `video.js` and `mouse/video.js`. Opt-in `safeLog()` string wrapper only. | **Low (2)** | Static `grep` check in CI pipeline ([.github/workflows/ci.yml](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/.github/workflows/ci.yml)). | **Mitigated** |
+| **R-02** | Unreleased webcam stream track keeping physical camera active after stop. | **High (16)** | Explicit `stopCamera()` function iterating `mediaStream.getTracks().forEach(t => t.stop())` on user stop and `beforeunload`. | **Low (2)** | WebMediaStreams track state audit & webcam hardware LED test. | **Mitigated** |
+| **R-03** | Misuse of AI hand detection for authentication, surveillance, or high-risk decisions. | **High (20)** | Prominent UI notice banners on `index.html` and `mouse/index.html`; explicit intended/prohibited use rules in [GOVERNANCE.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/GOVERNANCE.md). | **Low (4)** | UI & repository documentation inspection. | **Mitigated** |
+| **R-04** | Erratic pointer cursor movement or cursor lock traps during lost tracking. | **Medium (12)** | Added coordinate bounds checking (`0 <= x <= c1.width`), confidence thresholding (`>=0.70`), exponential smoothing (`alpha = 0.25`), and `ESC` key un-lock. | **Low (3)** | Pointer lock exit functional test & boundary test. | **Mitigated** |
+| **R-05** | Over-reliance on inaccurate or unstable AI outputs during low light / occlusion. | **Medium (10)** | Status badge updates ("No Hand Detected / Searching..."), confidence drift alerts in [telemetry.js](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry.js), and limitation warnings. | **Low (2)** | Low-light and occlusion failure test. | **Mitigated** |
+| **R-06** | Exclusion of non-camera or keyboard-only users. | **Medium (9)** | Full keyboard navigation (`Tab`, `Space`, `Enter`, `Esc`), ARIA live regions, and interactive hand simulation pattern (no camera required). | **Low (2)** | Keyboard accessibility audit. | **Mitigated** |
+| **R-07** | Supply chain vulnerability from unpinned or tampered CDN scripts. | **High (15)** | Pinned version numbers (`ml5.js@0.12.2`, `materialize@1.0.0`), dependency scanning workflow ([.github/workflows/dependency-scan.yml](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/.github/workflows/dependency-scan.yml)). | **Low (3)** | Dependency audit in [DEPENDENCIES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/DEPENDENCIES.md). | **Mitigated** |
 
 ---
 
-## 3. Operational Risk Assessment (Clause 8.2 — Runtime, Monitoring-Driven)
+## 3. Linkage to Implementation Features
 
-Operational risks are tied directly to live runtime signals generated by the client-side telemetry module ([telemetry.js](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry.js)). Operational telemetry exports ([telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json)) are evaluated each management review cycle to update this register.
-
-| Operational Risk | Live Signal | Threshold | Action |
-| :--- | :--- | :--- | :--- |
-| **Detection quality drift** | `telemetry.js` rolling avg confidence | Baseline `0.70`, alert if drop > `0.15` | Display in-app alert banner (`telemetry-alert`); log review item |
-| **Permission-denial spike** | `permissionDenials` counter | > `10%` of sessions / 24h | Reviewed at next management review; audit UI privacy copy |
-| **Dependency unavailability** | `inferenceLoadFailures` counter | Any failure (`> 0`) | Trigger fallback per [SUPPLIER_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/SUPPLIER_ASSESSMENT.md) |
-| **Pointer instability** | `pointerLockFailures` counter | > `2` consecutive failures | Auto-disable pointer demo; log CAPA record |
+- **Confidence Guardrail**: Code in `video.js:243` and `mouse/video.js:215` checks `results[0].handInViewConfidence >= 0.70`. Detections below baseline threshold trigger `Telemetry.recordFrame(null)` and transition system to "Searching for hand...".
+- **Rate Limit Guardrail**: Target FPS control slider (`fpsInput`) throttles frame inference callback loops (`setTimeout(timerCallback, fps)`).
+- **Landmark Array Bounds Check**: Before processing annotations or landmarks, code checks `element.boundingBox`, `element.annotations`, and array lengths to prevent array index out-of-bounds crashes.
 
 ---
 
-## 4. Mandatory Risk Assessment Update Trigger
-
-> ⚠️ **Enforceable Re-assessment Policy**:
-> This Risk Assessment **MUST** be formally re-assessed and updated by Mohit Sharma upon:
-> 1. Any version bump or update to the external `ml5.js` library or underlying handpose model.
-> 2. Introduction of any new feature or architectural modification affecting camera stream processing or pointer interaction.
-> 3. Discovery of any high-severity nonconformity or privacy incident.
-> 4. At mandatory annual review intervals (Next scheduled review: **15 September 2027**).
-
----
-
-## 5. Pre-Flight Operational Readiness Checklist
-
-Before serving `ai-hand-detection` to users:
-1. **Model Readiness**: Confirm `modelIsLoaded === true` before enabling UI controls.
-2. **Stream Active**: Confirm `video.readyState === video.HAVE_ENOUGH_DATA` before canvas rendering.
-3. **Console Audit**: Execute `grep -n "console.log" video.js mouse/video.js` to ensure zero unredacted landmark logging.
-4. **Hardware Release**: Confirm `mediaStream.getTracks().forEach(t => t.stop())` turns off physical webcam indicator light when stopped.
+**Approved by:**  
+*Mohit Sharma, Risk Assessment Owner & Lead Engineer*  
+*Date: 15 September 2026*

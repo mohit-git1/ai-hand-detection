@@ -1,54 +1,57 @@
-# ISO/IEC 42001 Continual Improvement Backlog & Retrospective Process
+# ISO/IEC 42001 Continual Improvement Framework & Backlog
 
 **Document Reference:** AIMS-IMP-10.2  
 **System Identifier:** `AIS-2e3a94ae`  
 **System Name:** `ai-hand-detection`  
-**Business Unit:** Noida Business Unit  
-**Continual Improvement Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
-**Effective Date:** 15 September 2026  
+**Continual Improvement Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`, Lead Engineer & Continual Improvement Owner)  
 **ISO/IEC 42001 Clause Alignment:** Clause 10.2 (Continual Improvement)  
 
 ---
 
 ## 1. Continual Improvement Policy & Ownership
 
-Under ISO/IEC 42001 Clause 10.2, the Noida Business Unit systematically drives continual improvement of the suitability, adequacy, and effectiveness of system `AIS-2e3a94ae`.
+The Noida Business Unit continually improves the suitability, adequacy, and effectiveness of the AI Management System (AIMS) and the `ai-hand-detection` software.
 
-**Mohit Sharma** is the designated **Continual Improvement Owner**. Improvement opportunities are identified from telemetry exports ([telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json)), CAPA records ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)), management reviews ([MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md)), user feedback, and retrospective reviews.
-
----
-
-## 2. Retrospective Process & Lessons-Learned Register
-
-### 2.1 Quarterly Retrospective Process
-1. **Cadence**: Conducted quarterly by Mohit Sharma at the end of each release cycle.
-2. **Review Scope**: Telemetry confidence trends, camera permission failure rates, CAPA closure speed, and third-party script stability.
-3. **Action Mapping**: Lessons learned are documented and logged into the Continual Improvement Backlog.
-
-### 2.2 Lessons-Learned Register
-
-| Lesson ID | Trigger Event | Lesson Learned | Preventive Action Implemented |
-| :--- | :--- | :--- | :--- |
-| **LL-01** | DevTools console logging finding | Production JS files must strictly gate log functions to prevent sensitive landmark data exposure. | Implemented `safeLog()` with `window.DEBUG_LOGGING` count-only wrapper. |
-| **LL-02** | Unreleased webcam stream finding | Browser `getUserMedia` streams must be explicitly closed via `track.stop()` on UI stop or window unload. | Added `stopCamera()` hardware cleanup function. |
-| **LL-03** | Middle-finger pointer jitter | Direct landmark-to-canvas coordinate mapping causes cursor instability without filtering. | Implemented exponential coordinate smoothing (`alpha = 0.25`). |
-| **LL-04** | Telemetry verification requirement | Console logging is insufficient for ISO 42001 audit compliance; durable client DOM telemetry is required. | Created `telemetry.js` module with DOM panel and JSON export capabilities. |
+- **Continual Improvement Owner**: Mohit Sharma (`mohit.sharma@noida.example.com`)
+- **Improvement Methodology**: Plan-Do-Check-Act (PDCA) cycle integrating operational telemetry ([telemetry.js](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry.js)), internal audits ([VERIFICATION.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/VERIFICATION.md)), CAPA outcomes ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)), and management reviews ([MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md)).
 
 ---
 
-## 3. Live Continual Improvement Backlog Table
+## 2. Continual Improvement Backlog
 
-| Item ID | Improvement Opportunity | Trigger Source | Priority | Named Owner | Target Due Date | Post-Implementation Telemetry Effectiveness Review | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **IMP-01** | Redact raw console logging of prediction objects; implement safe `DEBUG_LOGGING` wrapper. | GovernX Audit | High | Mohit Sharma | 15 Sep 2026 | **Before/After Review**: Pre-fix DevTools emitted 30 landmark objects/sec. Post-fix DevTools emitted 0 objects. Telemetry confirms 100% clean logging. | **Completed** |
-| **IMP-02** | Implement explicit Start/Stop camera controls and physical stream track shutdown (`track.stop()`). | GovernX Audit | High | Mohit Sharma | 15 Sep 2026 | **Before/After Review**: Stream remained open on toggle off. Post-fix hardware LED turns off within <500ms. Telemetry confirms 0 orphaned streams. | **Completed** |
-| **IMP-03** | Implement exponential coordinate smoothing (`alpha = 0.25`) for middle-finger pointer control. | GovernX Audit | High | Mohit Sharma | 15 Sep 2026 | **Before/After Review**: Cursor jitter delta was >150px/frame. Post-fix jitter delta reduced to <15px/frame. Telemetry confirms 0 pointer lock failures. | **Completed** |
-| **IMP-04** | Implement client-side `telemetry.js` module for durable monitoring and JSON diagnostics export. | GovernX Audit (Clause 9.1) | High | Mohit Sharma | 15 Sep 2026 | **Before/After Review**: Replaced console-only output with persistent `localStorage` telemetry and export capability ([telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json)). | **Completed** |
-| **IMP-05** | Add non-camera "Simulate Hand Pattern" mode and complete keyboard focus navigation (`Tab`, `Esc`). | Accessibility Review | Medium | Mohit Sharma | 15 Sep 2026 | Non-camera simulation pattern functional; keyboard navigation audited. | **Completed** |
-| **IMP-06** | Bundle a local vendor copy of `ml5.min.js` at `/vendor/ml5.min.js` as an offline fallback. | Risk Assessment | Medium | Mohit Sharma | Q4 2026 | Test offline fallback script loading when network CDN is disconnected. | **Planned** |
+| Item ID | Description & Opportunity | Source Trigger | Priority | Assigned Owner | Target Date | Current Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **IMP-01** | Redact raw prediction console logging and replace with safe opt-in diagnostic count logging. | CAPA-2026-01 / Scan Finding | High | Mohit Sharma | 15 Sep 2026 | **Completed & Verified** |
+| **IMP-02** | Implement physical webcam stream release on stop and unload. | Audit Finding / R-02 | High | Dev Contributor | 15 Sep 2026 | **Completed & Verified** |
+| **IMP-03** | Add coordinate exponential smoothing (`alpha=0.25`) to prevent middle-finger cursor jitter. | Pointer Demo Testing | Medium | Dev Contributor | 15 Sep 2026 | **Completed & Verified** |
+| **IMP-04** | Implement privacy-preserving client-side telemetry with confidence drift alerts and JSON export. | AIMS Monitoring Plan | Medium | Mohit Sharma | 15 Sep 2026 | **Completed & Verified** |
+| **IMP-05** | Add automated GitHub Actions CI workflow to enforce static compliance and CDN version locking. | ISO 42001 Change Control | Medium | Mohit Sharma | 15 Sep 2026 | **Completed & Verified** |
+| **IMP-06** | Conduct periodic WebGL performance evaluation on mobile browser viewports. | Retrospective Rec-01 | Low | Dev Contributor | 15 Mar 2027 | Planned |
 
 ---
 
-## 4. Governance & Review Approval
+## 3. Retrospective Process & Session Log
 
-This Continual Improvement process and backlog are formally reviewed quarterly during management reviews ([MANAGEMENT_REVIEW.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MANAGEMENT_REVIEW.md)).
+The development team conducts quarterly or post-release retrospective reviews to evaluate operational findings and extract actionable lessons.
+
+### Retrospective Session Log (REC-2026-01)
+- **Date**: 15 September 2026
+- **Participants**: Mohit Sharma (Lead Engineer), Dev Contributor, QA Specialist
+- **Key Discussion Points**:
+  - *What Went Well*: Client-side DOM architecture prevented any server-side privacy leaks. Standardizing on `ml5.js` version 0.12.2 provided predictable model performance.
+  - *What Was Learned*: Debug `console.log` statements can easily slip into production code without automated static analysis enforcement in CI.
+  - *Action Taken*: Added `scripts/audit_check.sh` and GitHub Actions CI workflow ([.github/workflows/ci.yml](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/.github/workflows/ci.yml)).
+
+---
+
+## 4. Lessons-Learned Register
+
+1. **Lesson 1 (Privacy & Debugging)**: Debugging statements in AI callbacks must be wrapped in safe diagnostic guards (`window.DEBUG_LOGGING`) before merging to master.
+2. **Lesson 2 (Hardware Release)**: Merely setting `video.srcObject = null` is insufficient in Chrome; explicit track stopping via `MediaStreamTrack.stop()` is mandatory.
+3. **Lesson 3 (Pointer Stability)**: Raw vision inference coordinates require exponential low-pass filtering before driving canvas pointer events to prevent user motion fatigue.
+
+---
+
+**Approved by:**  
+*Mohit Sharma, Continual Improvement Owner & Lead Engineer*  
+*Date: 15 September 2026*

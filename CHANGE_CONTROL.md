@@ -1,57 +1,62 @@
-# ISO/IEC 42001 Change Control & Release Management
+# ISO/IEC 42001 Change Control & Release Procedure
 
 **Document Reference:** AIMS-CHG-6.3  
 **System Identifier:** `AIS-2e3a94ae`  
 **System Name:** `ai-hand-detection`  
 **Change Control Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
-**Effective Date:** 15 September 2026  
 **ISO/IEC 42001 Clause Alignment:** Clause 6.3 (Planning of Changes)  
 
 ---
 
-## 1. Purpose & Scope
+## 1. Change Management Principles & Objectives
 
-This document establishes the formal Change Control and Release Management process for system `AIS-2e3a94ae`. All code modifications, dependency upgrades (`ml5.js`, `Materialize`), model adjustments, browser compatibility updates, and UI changes must adhere to this workflow to preserve AI safety, privacy, and system stability.
+When changes are determined to be necessary for the AI Management System (AIMS) or the `ai-hand-detection` software, they shall be carried out in a planned manner considering:
 
----
-
-## 2. Change Control Workflow
-
-```
-[Change Request / Defect] ➔ [Impact & Risk Analysis] ➔ [Development & Testing] ➔ [Review & Approval] ➔ [Staging / Deployment] ➔ [Post-Release Verification]
-```
-
-1. **Change Initiation**: Any proposed change (bug fix, privacy improvement, dependency bump) is logged as an issue or pull request.
-2. **Impact & Risk Assessment**: The Change Owner (Mohit Sharma) evaluates potential impacts on ISO 42001 compliance, privacy, camera controls, pointer stability, and browser compatibility.
-3. **Development & Local Testing**: Changes are implemented in a feature branch. Local testing includes:
-   - JavaScript syntax compile check (`node -c`).
-   - Browser developer console check for zero raw landmark logging.
-   - Keyboard navigation audit (`Tab`, `Space`, `Enter`, `Esc`).
-   - Camera stop verification (`track.stop()`).
-4. **Peer Review & Named Approval**: Every Pull Request requires explicit review and approval by Mohit Sharma (System Owner).
-5. **Release Tagging & Staging Deployment**: Approved changes are committed to `master` with descriptive Git commit messages.
-6. **Rollback Plan**: If post-deployment testing fails, the release is immediately rolled back via `git revert <commit-hash>`.
+1. The purpose of the changes and their potential consequences.
+2. The integrity of the AI Management System and software guardrails.
+3. The availability of resources ([RESOURCES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RESOURCES.md)).
+4. The allocation or reallocation of responsibilities and authorities.
 
 ---
 
-## 3. Pull Request Checklist Template
+## 2. Protected Branch Policy & Pull Request Workflow
 
-Every pull request modifying `ai-hand-detection` must include the following completed checklist:
+All code and documentation modifications MUST follow strict version-control discipline:
 
-```markdown
-### ISO 42001 Change Approval Checklist
-- [ ] **Privacy Check**: Confirmed no `console.log(results)` or raw landmark logging exists.
-- [ ] **Camera Check**: Confirmed `track.stop()` is invoked when camera is stopped or tab closed.
-- [ ] **Accessibility Check**: Verified keyboard operation (`Tab`, `Space`, `Enter`, `Esc`).
-- [ ] **Dependency Check**: Verified external scripts use exact pinned versions (`ml5@0.12.2`).
-- [ ] **Testing**: Executed `node -c video.js` and verified zero console errors.
-- [ ] **Approved By**: Mohit Sharma (System & Compliance Owner)
-```
+1. **Branch Protection**: The `main` branch is protected. Direct commits to `main` are strictly prohibited.
+2. **Feature Branch Naming**: All changes must be developed in feature branches (e.g. `feature/risk-mitigation`, `fix/camera-cleanup`, `policy/update-2026`).
+3. **Mandatory Pull Request (PR)**: Merges to `main` require a Pull Request using the official [.github/PULL_REQUEST_TEMPLATE.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/.github/PULL_REQUEST_TEMPLATE.md).
+4. **Peer / Lead Engineer Review**: Every PR requires explicit review and approval by **Mohit Sharma** or designated compliance reviewer before merge.
+5. **CI Quality Gates**: Automated continuous integration checks ([.github/workflows/ci.yml](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/.github/workflows/ci.yml)) must pass 100% prior to merging:
+   - Static security check (`console.log` landmark exposure audit).
+   - Version pinning validation (`ml5.js` pinned to `0.12.2`).
+   - HTML syntax & link integrity verification.
 
 ---
 
-## 4. Historical Change Log Example
+## 3. Dependency & Model Version Change Governance
 
-| Change ID | Release Date | Summary of Change | Risk Impact | Approver | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **CHG-2026-01** | 15 Sep 2026 | Implemented ISO 42001 risk mitigations, console redaction, privacy banners, and exponential pointer coordinate smoothing. | High (Privacy & Safety) | Mohit Sharma | **Approved & Deployed** |
+External libraries and AI models (e.g. `ml5.js`) represent supply-chain changes and follow an elevated change workflow:
+
+```
+[Dependency Change Proposed] ➔ [Security & SRI Review] ➔ [Offline Fallback Validation] ➔ [Staging Test] ➔ [Lead Approval] ➔ [Release Tagging]
+```
+
+1. **Evaluation**: Assess security advisories, license compatibility, and privacy impacts of proposed package version updates.
+2. **Fallback Verification**: Confirm system operates gracefully if CDN is unreachable.
+3. **Version Locking**: Update explicit version numbers in `index.html`, `mouse/index.html`, and [DEPENDENCIES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/DEPENDENCIES.md).
+
+---
+
+## 4. Release Approval & Changelog Record
+
+Prior to publishing any production release:
+1. Complete the Pre-Release Verification Checklist in [OPERATIONAL_RUNBOOK.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/OPERATIONAL_RUNBOOK.md).
+2. Update [CHANGELOG.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CHANGELOG.md) with version details, changed components, risk assessments, and approver identity.
+3. Tag the release in git (`git tag -a vX.Y.Z`).
+
+---
+
+**Formally Approved by:**  
+*Mohit Sharma, Change Control Owner & Lead Engineer*  
+*Date: 15 September 2026*

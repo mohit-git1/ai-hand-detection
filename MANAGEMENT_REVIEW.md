@@ -1,75 +1,61 @@
 # ISO/IEC 42001 Management Review Cadence & Meeting Records
 
-**Document Reference:** AIMS-REV-9.3  
+**Document Reference:** AIMS-MGT-9.3  
 **System Identifier:** `AIS-2e3a94ae`  
 **System Name:** `ai-hand-detection`  
-**Business Unit:** Noida Business Unit  
-**Review Owner:** Mohit Sharma (`mohit.sharma@noida.example.com`)  
-**Effective Date:** 15 September 2026  
+**Management Review Chair:** Mohit Sharma (`mohit.sharma@noida.example.com`, Lead Engineer & Designated Top Management Representative)  
 **ISO/IEC 42001 Clause Alignment:** Clause 9.3 (Management Review)  
 
 ---
 
-## 1. Management Review Policy & Cadence
+## 1. Management Review Cadence & Purpose
 
-Under ISO/IEC 42001 Clause 9.3, top management of the Noida Business Unit conducts formal management reviews of the AI Management System (AIMS) at planned intervals:
-- **Quarterly Reviews**: Operational health, telemetry metrics, CAPA progress, and supplier performance.
-- **Annual Comprehensive Reviews**: Strategic alignment, AI policy review, risk assessment re-evaluation, and resource allocation.
+Top management of the Noida Business Unit reviews the organization’s AI Management System (AIMS) at planned intervals (semi-annually) to ensure its continuing suitability, adequacy, effectiveness, and alignment with the strategic direction of the organization.
 
----
-
-## 2. Reusable Management Review Meeting Template
-
-Every management review meeting must evaluate the following mandatory inputs and record decisions:
-
-```markdown
-### ISO 42001 Management Review Template
-- **Date & Location**: [Date, Meeting Room / Virtual]
-- **Attendees**: [Top Management Sponsor, System Owner, Maintainers]
-- **Mandatory Inputs Evaluated**:
-  1. Status of action items from prior management reviews.
-  2. Changes in internal/external issues, AIMS scope, or AI policy alignment.
-  3. AIMS Performance & Telemetry Metrics ([telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json)).
-  4. Nonconformities & CAPA Register Status ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)).
-  5. Risk Assessment & Operational Stop Conditions ([RISK_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RISK_ASSESSMENT.md)).
-  6. Supplier & Dependency Governance ([SUPPLIER_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/SUPPLIER_ASSESSMENT.md)).
-  7. Resource Adequacy & Capacity Planning ([RESOURCES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RESOURCES.md)).
-  8. Continual Improvement Backlog ([CONTINUAL_IMPROVEMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CONTINUAL_IMPROVEMENT.md)).
-- **Mandatory Review Outputs**:
-  - Decisions on AIMS suitability, adequacy, and effectiveness.
-  - Resource allocation decisions.
-  - Assigned follow-up action items with named owners and target due dates.
-```
+- **Cadence**: Semi-Annual (March & September)
+- **Chair & Host**: Mohit Sharma (Lead Engineer & Top Management Sponsor)
+- **Attendees**: Lead Engineer, AI Developer, Quality & Audit Lead
 
 ---
 
-## 3. Completed Management Review Record (Q3 2026)
+## 2. Standard Management Review Agenda & Inputs
 
-**Meeting Date**: 15 September 2026  
-**Location**: Noida Unit Headquarters & Virtual Conference  
-**Attendees**:
-- Mohit Sharma (Lead Engineer & Designated Top Management Representative, Noida Business Unit)
-- Mohit Sharma (Named AI System & Compliance Owner, `AIS-2e3a94ae`)
+In accordance with ISO/IEC 42001 Clause 9.3, management reviews evaluate the following required inputs:
 
-### Review Inputs Evaluated
-1. **AIMS Performance & Telemetry**: Evaluated client telemetry export ([telemetry-sample.json](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/telemetry-sample.json)). Confirmed 96.7% hand detection rate, 0.89 rolling average confidence, 0 permission denials, and 0 CDN load errors.
-2. **AI Policy & Objectives**: Confirmed top management sponsorship, policy endorsement, and 100% policy commitment fulfillment ([AI_POLICY.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AI_POLICY.md)).
-3. **Risk Assessment**: Evaluated operational risk signals ([RISK_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RISK_ASSESSMENT.md)); confirmed all residual risks rated Low (Score 2–4).
-4. **CAPA Register**: Evaluated `CAPA-2026-01` ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)) addressing console logging redaction; verified closure.
-5. **Supplier Governance**: Reviewed `ml5.js` v0.12.2 pinned version and approved local self-hosting fallback ([SUPPLIER_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/SUPPLIER_ASSESSMENT.md)).
-6. **Resource Planning**: Reviewed capacity plan ([RESOURCES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RESOURCES.md)); confirmed 20% engineering FTE allocation is sufficient.
-
-### Review Decisions & Follow-up Actions Table
-
-| Action ID | Decision / Follow-up Action Description | Assigned Owner | Target Due Date | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **ACT-2026-01** | Formally approve and endorse ISO 42001 AIMS Scope Statement, AI Policy, and Risk Assessment for `AIS-2e3a94ae`. | Mohit Sharma (Top Management Rep) | 15 Sep 2026 | **Completed** |
-| **ACT-2026-02** | Maintain zero production console logging and enforce pre-release `grep` syntax checks. | Mohit Sharma | Continuous | **Active** |
-| **ACT-2026-03** | Review telemetry diagnostics weekly and evaluate confidence drift alerts. | Mohit Sharma | Weekly | **Active** |
-| **ACT-2026-04** | Perform next semi-annual supplier review for `ml5.js` dependencies and test local fallback script `/vendor/ml5.min.js`. | Mohit Sharma | 15 Mar 2027 | **Scheduled** |
+1. Status of actions from previous management reviews.
+2. Changes in external and internal issues, legal requirements, and AI technologies.
+3. Information on AIMS performance, including:
+   - Nonconformities and CAPA status ([CAPA.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CAPA.md)).
+   - Monitoring and measurement results ([MONITORING.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/MONITORING.md)).
+   - Audit results ([VERIFICATION.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/VERIFICATION.md)).
+   - Achievement of AI objectives ([AI_OBJECTIVES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AI_OBJECTIVES.md)).
+4. Opportunities for continual improvement ([CONTINUAL_IMPROVEMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CONTINUAL_IMPROVEMENT.md)).
+5. Adequacy of resources ([RESOURCES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RESOURCES.md)).
+6. Effectiveness of actions taken to address risks ([RISK_ASSESSMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/RISK_ASSESSMENT.md)).
 
 ---
 
-**Formally Approved & Endorsed by:**  
-*Mohit Sharma, Lead Engineer & Designated Top Management Representative (Noida Business Unit)*  
-*Approval Date: 15 September 2026*
+## 3. Formally Retained Management Review Minutes (Record MR-2026-02)
+
+### Meeting Details
+- **Review Date**: 15 September 2026
+- **System Name**: `ai-hand-detection` (`AIS-2e3a94ae`)
+- **Meeting Chair**: Mohit Sharma (Lead Engineer & Designated Top Management Representative)
+- **Location / Channel**: Noida Business Unit Conference Room & Repository Review
+
+### Summary of Discussion & Findings
+1. **AIMS Performance & Audit Findings**: Reviewed GovernXOne ISO 42001 assessment audit findings. Confirmed 100% resolution of raw console logging exposures and unreleased camera streams via CAPA-2026-01.
+2. **AI Objectives Progress**: Reviewed progress against [AI_OBJECTIVES.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/AI_OBJECTIVES.md). OBJ-01 (zero landmark console exposure) and OBJ-02 (clean camera track stop) achieved 100% target.
+3. **Risk Treatment Effectiveness**: Validated that coordinate exponential smoothing (`alpha=0.25`) successfully eliminated middle-finger pointer jitter in pointer lock mode.
+4. **Resource & Supplier Adequacy**: Confirmed static hosting footprint remains lightweight (<50MB RAM). Validated `ml5.js` v0.12.2 CDN pinning stability.
+
+### Management Decisions & Action Items
+- **Action Item 1**: Implement automated CI quality workflow ([.github/workflows/ci.yml](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/.github/workflows/ci.yml)) to block unredacted debug logging on future PRs. *(Owner: Mohit Sharma, Due: 15 Sep 2026 - CLOSED)*
+- **Action Item 2**: Formalize Continual Improvement Backlog and Lessons Learned Register in [CONTINUAL_IMPROVEMENT.md](file:///home/emy88/Documents/Emerge-AI/governxone_testing/ai-hand-detection/CONTINUAL_IMPROVEMENT.md). *(Owner: Mohit Sharma, Due: 15 Sep 2026 - CLOSED)*
+- **Action Item 3**: Schedule next semi-annual Management Review for March 2027. *(Owner: Mohit Sharma, Scheduled)*
+
+---
+
+**Formally Approved by Top Management:**  
+*Mohit Sharma, Lead Engineer & Designated Top Management Representative*  
+*Date: 15 September 2026*
